@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Change Management" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e2f1572-7ed5-4f20-951a-7a2535523a4a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="L and T"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Style1">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#E7E6E6"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Year" class="java.lang.String"/>
+	<parameter name="Month" class="java.lang.String"/>
+	<parameter name="Discom" class="java.lang.String"/>
+	<parameter name="State" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[with sathish as (select 
+state,
+Year,
+discom,
+total_ticket,
+within_agreedtime,
+beyond_agreedtime,
+hold_ticket,
+pending,
+case when month in ('1','01','2','02','3','03') then '1st quaterly'  
+     when month in ('4','04','5','05','6','06') then '2nd quaterly'  
+     when month in ('7','07','8','08','9','09') then '3rd quaterly' 
+     when month in ('10','11','12') then '4th quaterly' end as quaterly,
+     
+case when month in ('1','01','2','02','3','03') then '1'  
+     when month in ('4','04','5','05','6','06') then '2'  
+     when month in ('7','07','8','08','9','09') then '3' 
+     when month in ('10','11','12') then '4' end as quaterlyMONTH,
+	month_year 
+from custom.changemanagement_totalcount
+where year= $P{Year}  
+and  state=$P{State})
+
+select 
+discom,
+Case when quaterly='1st quaterly' then 'From 01-January-'||Year ||' To 31-March-' ||Year 
+when quaterly='2nd quaterly' then 'From 01-April-'||Year ||' To 30-June-' ||Year 
+when quaterly='3rd quaterly' then 'From 01-July-'||Year ||' To 30-September-' ||Year 
+when quaterly='4th quaterly' then 'From 01-October-'||Year ||' To 31-December-' ||Year  end as head,
+sum(total_ticket)      as total_ticket,
+sum(within_agreedtime) as within_agreedtime,
+sum(beyond_agreedtime) as beyond_agreedtime,
+sum(hold_ticket)       as hold_ticket,
+sum(pending)           as pending,
+case when 
+sum(total_ticket)=sum(hold_ticket) then 0 else
+sum(within_Agreedtime)*100/(sum(total_ticket-hold_ticket)) end excl_hold_perc,
+sum(within_Agreedtime)*100/sum(total_ticket) as  Incl_hold_perc
+from Sathish
+
+where 
+( case when  $P{Month}  in ('1','01','2','02','3','03') then '1'  
+     when  $P{Month}  in ('4','04','5','05','6','06') then '2'  
+     when  $P{Month}  in ('7','07','8','08','9','09') then '3' 
+     when  $P{Month}  in ('10','11','12') then '4' end ) = quaterlyMONTH
+
+group by 
+discom,
+Case when quaterly='1st quaterly' then 'From 01-January-'||Year ||' To 31-March-' ||Year 
+when quaterly='2nd quaterly' then 'From 01-April-'||Year ||' To 30-June-' ||Year 
+when quaterly='3rd quaterly' then 'From 01-July-'||Year ||' To 30-September-' ||Year 
+when quaterly='4th quaterly' then 'From 01-October-'||Year ||' To 31-December-' ||Year  end]]>
+	</queryString>
+	<field name="discom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="discom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="head" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="head"/>
+	</field>
+	<field name="total_ticket" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="total_ticket"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="within_agreedtime" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="within_agreedtime"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="beyond_agreedtime" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="beyond_agreedtime"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="hold_ticket" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="hold_ticket"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="pending" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="pending"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="excl_hold_perc" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="excl_hold_perc"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<field name="incl_hold_perc" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="incl_hold_perc"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="changemanagement_totalcount"/>
+	</field>
+	<title>
+		<band height="56" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="55" backcolor="#7EB1F7" uuid="50726383-04a0-44ce-837e-989ef8dc0b43">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement x="0" y="32" width="554" height="20" uuid="3a4487bd-86d4-4b8a-9242-a93b6ef0fea0">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<box topPadding="0">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="14" isBold="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{head}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="0" y="1" width="555" height="23" uuid="e9114276-4541-445b-9b60-1c501a8020aa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["16 Change Management Summary Report"]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="72" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="7a4f8add-085f-4e0c-bdbf-530dfc3f1095">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ce705fa-d086-4d63-b7c9-9f2fadd5ccdf"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DISCOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="72" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="15ca6156-c784-48ee-b0a2-6697bc4a973a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b20344b1-7682-4f9b-b064-d4b29033d120"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total change management ticket scheduled]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="141" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="11c4e74c-7fa1-47b4-8923-7252864be2bc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5aea627e-5a1e-4078-af2b-5d39cb76a762"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total change management ticket Closed within agreed time for requested change]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="d0a60756-2416-4a7c-827e-52cce1232b5a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6d4f425b-d729-4e5b-b2da-8bc5ceb503f6"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total change management ticket closed beyond agreed time for requested change]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="5429b841-5a1b-4867-87bc-12edfff83c85">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b08fb9a3-c150-43b9-882f-2450f85e3bc7"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total change management ticket on hold(Due to pending CAB approval)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="348" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="8370f2b4-4265-484a-8a26-3a19fde8fbdb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf0d10d5-20d0-4389-af85-8737b6a04f03"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total change management ticket pending for closure]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="417" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="b5b40d1c-6076-42b4-8fef-9237b6ed2b16">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef04aa04-48d0-4679-9a34-eec458ed55c0"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Scheduled Vs Closed Percentage (Excluding Hold)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="486" y="0" width="69" height="110" forecolor="#000000" backcolor="#FFB35C" uuid="79037726-2d6f-446e-a2fb-2b4b9bc1bbfa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="71f54e9f-bfea-41e4-9f73-83db50e70f02"/>
+				</reportElement>
+				<box topPadding="2" leftPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Scheduled Vs Closed Percentage (Including Hold)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="0" y="0" width="72" height="30" uuid="4f881909-4195-4c63-b127-bf518d33b203">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ce705fa-d086-4d63-b7c9-9f2fadd5ccdf"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{discom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="72" y="0" width="69" height="30" uuid="c1905cef-6ef4-4f56-8c9d-0ebca6de89da">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b20344b1-7682-4f9b-b064-d4b29033d120"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_ticket}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="141" y="0" width="69" height="30" uuid="256d7762-26e1-4ba0-92ab-2241ad627632">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5aea627e-5a1e-4078-af2b-5d39cb76a762"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{within_agreedtime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="210" y="0" width="69" height="30" uuid="35bfe882-2d85-4e42-a091-badda6c23786">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6d4f425b-d729-4e5b-b2da-8bc5ceb503f6"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{beyond_agreedtime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="279" y="0" width="69" height="30" uuid="463f186e-345d-4648-a885-a1aa256a766d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b08fb9a3-c150-43b9-882f-2450f85e3bc7"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{hold_ticket}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="348" y="0" width="69" height="30" uuid="eafaad34-f9b9-4677-93c8-a35684849fef">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf0d10d5-20d0-4389-af85-8737b6a04f03"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pending}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="417" y="0" width="69" height="30" uuid="cbeca7a2-acad-4ece-a61d-33696bc90e71">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef04aa04-48d0-4679-9a34-eec458ed55c0"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{excl_hold_perc}+" % "]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="486" y="0" width="69" height="30" uuid="14acd7e3-d1b2-444e-89ca-55ea975078b4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="71f54e9f-bfea-41e4-9f73-83db50e70f02"/>
+				</reportElement>
+				<box topPadding="0">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{incl_hold_perc}+" % "]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="26">
+			<textField pattern="dd/MM/yyyy HH:mm a">
+				<reportElement x="69" y="6" width="120" height="20" uuid="4b174b63-8ee2-41c5-a298-b79a1bbb472a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="6" width="63" height="20" uuid="c5914f85-dc7c-4bf4-a6fa-a31b76436b6a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Print Date  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="460" y="6" width="52" height="20" uuid="e02780a3-0d5c-4a60-8702-ce47d5e614fa">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="512" y="6" width="42" height="20" uuid="85d8221c-057c-49eb-bb43-b3430319ceb3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="189" y="6" width="261" height="20" uuid="0057a2b5-0e16-4f53-9bcf-217c3a049ff5">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[This is system generated Report.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="3" width="555" height="1" uuid="7596e457-80fb-44cc-9e6f-611bcb9b1576">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="58b098ab-4717-43bb-9f4b-e733c822cdae"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="22" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[No Data Exist in Selected Data Range ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

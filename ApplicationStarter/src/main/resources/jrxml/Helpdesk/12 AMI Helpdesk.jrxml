@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AMI HelpDesk" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e2f1572-7ed5-4f20-951a-7a2535523a4a">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="L and T"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Style1">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#E7E6E6"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Month" class="java.lang.String"/>
+	<parameter name="Year" class="java.lang.String"/>
+	<parameter name="Discom" class="java.lang.String"/>
+	<parameter name="State" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+discom,
+state,
+to_char(custom.last_day(to_date(('22-'||month||'-'||year),'dd/mm/yyyy')),'dd-Mon-yyyy') lastdate,
+to_char(to_date(('01-'||month||'-'||year),'dd/mm/yyyy'),'dd-Mon-yyyy')  firstdate,
+total_tickets_booked,
+total_ticket_resolved_within_sla,
+total_ticket_resolved_beyond_sla,
+total_ticket_on_hold,
+total_ticket_pending_for_resolution,
+excluding_hold_tickets,
+including_hold_tickets
+from custom.amihelpdesk_totalcounts
+where month =   $P{Month} 
+and year =   $P{Year} 
+and discom = $P{Discom} 
+and state =  $P{State}]]>
+	</queryString>
+	<field name="discom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="discom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="state" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="state"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="lastdate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="lastdate"/>
+	</field>
+	<field name="firstdate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="firstdate"/>
+	</field>
+	<field name="total_tickets_booked" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="total_tickets_booked"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="total_ticket_resolved_within_sla" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="total_ticket_resolved_within_sla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="total_ticket_resolved_beyond_sla" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="total_ticket_resolved_beyond_sla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="total_ticket_on_hold" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="total_ticket_on_hold"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="total_ticket_pending_for_resolution" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="total_ticket_pending_for_resolution"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="excluding_hold_tickets" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="excluding_hold_tickets"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<field name="including_hold_tickets" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="including_hold_tickets"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="amihelpdesk_totalcounts"/>
+	</field>
+	<title>
+		<band height="56" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="55" backcolor="#7EB1F7" uuid="bfd0ab83-4e92-4604-afd6-05a6eb70e171">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textField>
+					<reportElement x="0" y="30" width="554" height="18" uuid="873cbe65-8a3f-41c3-88a9-9cc96c6f2d5f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="SansSerif" size="14" isBold="false" isUnderline="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["From  "+$F{firstdate}+"  to  "+$F{lastdate}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="0" y="1" width="555" height="23" uuid="6d6f35ab-5cab-42af-999b-9ea631433c5a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isUnderline="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["12 AMI Helpdesk  Summary Report- "+$F{discom}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="80" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="72" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="7a4f8add-085f-4e0c-bdbf-530dfc3f1095">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ce705fa-d086-4d63-b7c9-9f2fadd5ccdf"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[DISCOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="72" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="15ca6156-c784-48ee-b0a2-6697bc4a973a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b20344b1-7682-4f9b-b064-d4b29033d120"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Ticket Booked]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="141" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="11c4e74c-7fa1-47b4-8923-7252864be2bc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5aea627e-5a1e-4078-af2b-5d39cb76a762"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Ticket Resolved within SLA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="d0a60756-2416-4a7c-827e-52cce1232b5a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6d4f425b-d729-4e5b-b2da-8bc5ceb503f6"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Ticket Resolved beyond SLA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="5429b841-5a1b-4867-87bc-12edfff83c85">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b08fb9a3-c150-43b9-882f-2450f85e3bc7"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Ticket on Hold(Due to Pending DISCOM Approval)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="348" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="8370f2b4-4265-484a-8a26-3a19fde8fbdb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf0d10d5-20d0-4389-af85-8737b6a04f03"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Total Ticket Pending for Resolution]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="417" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="b5b40d1c-6076-42b4-8fef-9237b6ed2b16">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef04aa04-48d0-4679-9a34-eec458ed55c0"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Booked Vs Resolved Percentage (Excluding Hold Tickets)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="486" y="0" width="69" height="80" forecolor="#000000" backcolor="#FFB35C" uuid="79037726-2d6f-446e-a2fb-2b4b9bc1bbfa">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="71f54e9f-bfea-41e4-9f73-83db50e70f02"/>
+				</reportElement>
+				<box topPadding="2">
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="11" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Booked Vs Resolved Percentage (Including Hold Tickets)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="0" y="0" width="72" height="30" uuid="4f881909-4195-4c63-b127-bf518d33b203">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5ce705fa-d086-4d63-b7c9-9f2fadd5ccdf"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{discom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="72" y="0" width="69" height="30" uuid="c1905cef-6ef4-4f56-8c9d-0ebca6de89da">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b20344b1-7682-4f9b-b064-d4b29033d120"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_tickets_booked}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="141" y="0" width="69" height="30" uuid="256d7762-26e1-4ba0-92ab-2241ad627632">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5aea627e-5a1e-4078-af2b-5d39cb76a762"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_ticket_resolved_within_sla}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="210" y="0" width="69" height="30" uuid="35bfe882-2d85-4e42-a091-badda6c23786">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6d4f425b-d729-4e5b-b2da-8bc5ceb503f6"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_ticket_resolved_within_sla}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="279" y="0" width="69" height="30" uuid="463f186e-345d-4648-a885-a1aa256a766d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b08fb9a3-c150-43b9-882f-2450f85e3bc7"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_ticket_on_hold}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="348" y="0" width="69" height="30" uuid="eafaad34-f9b9-4677-93c8-a35684849fef">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bf0d10d5-20d0-4389-af85-8737b6a04f03"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total_ticket_pending_for_resolution}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="417" y="0" width="69" height="30" uuid="cbeca7a2-acad-4ece-a61d-33696bc90e71">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ef04aa04-48d0-4679-9a34-eec458ed55c0"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{excluding_hold_tickets} + " %"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Style1" stretchType="RelativeToTallestObject" x="486" y="0" width="69" height="30" uuid="14acd7e3-d1b2-444e-89ca-55ea975078b4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="71f54e9f-bfea-41e4-9f73-83db50e70f02"/>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{including_hold_tickets} + " %"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="28">
+			<textField pattern="dd/MM/yyyy HH:mm a">
+				<reportElement x="69" y="6" width="120" height="20" uuid="bcb8e776-8c95-4746-b4a7-ec64a5f7bda1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="6" width="63" height="20" uuid="b563a7c7-ac45-4b7e-9594-66d66411c763">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Print Date  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="460" y="6" width="52" height="20" uuid="d5b52841-9950-4572-81d3-557f9a6fc372">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="512" y="6" width="42" height="20" uuid="7fc0e5ac-db78-400c-acfb-56bf802371ca">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="4" width="555" height="1" uuid="b9f565b3-0446-41dd-a7ef-8cf63ac90959">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="190" y="6" width="261" height="20" uuid="1c4920d5-04db-49bc-a29c-b7251b947356">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[This is system generated Report.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="26d7e41f-2ce6-45f4-84e8-0fcce6f0ee9b"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="22" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[No Data Exist in Selected Data Range ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

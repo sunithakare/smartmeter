@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.envision</groupId>
+    <artifactId>multimodule</artifactId>
+    <version>${project.version}</version>
+  </parent>
+  <artifactId>ApplicationStarter</artifactId>
+  <packaging>war</packaging>
+  
+  	<dependencies>
+		<dependency>
+			  <groupId>${project.groupId}</groupId>
+			  <artifactId>login</artifactId>
+			  <version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			  <groupId>${project.groupId}</groupId>
+			  <artifactId>common</artifactId>
+			  <version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			  <groupId>${project.groupId}</groupId>
+			  <artifactId>sla.dashboard</artifactId>
+			  <version>${project.version}</version>
+		</dependency>
+		<dependency>
+			  <groupId>${project.groupId}</groupId>
+			  <artifactId>approval.process</artifactId>
+			  <version>${project.version}</version>
+		</dependency>
+		
+		
+		<dependency>
+			  <groupId>${project.groupId}</groupId>
+			  <artifactId>useraccessmanagement</artifactId>
+			  <version>${project.version}</version>
+		</dependency>
+		
+
+		
+		
+		<dependency>
+			  <groupId>${project.groupId}</groupId>
+			  <artifactId>cimodule</artifactId>
+			  <version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>aims</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

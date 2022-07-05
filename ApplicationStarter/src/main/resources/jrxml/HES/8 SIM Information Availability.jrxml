@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SLA-8" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="efd8d514-5e20-445e-ae53-92a172c962a6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="L and T"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="Month" class="java.lang.String"/>
+	<parameter name="Year" class="java.lang.String"/>
+	<parameter name="State" class="java.lang.String"/>
+	<parameter name="Discom" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select 
+ State,
+ discom,
+ days,
+ total,
+ hes_before_installation,breach,
+ percnt_sim_inf_avai_be4_installation,
+ year||'-'||to_char(to_DATE(month||'/'||year,'MM/YYYY'),'MON') month_year
+ from custom.sla_8_sim_info
+ WHERE DISCOM IS NOT NULL
+ and month=$P{Month}
+ and year= $P{Year}
+ and state= $P{State}
+and discom= $P{Discom}]]>
+	</queryString>
+	<field name="state" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="state"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="discom" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="discom"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="days" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="days"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="total" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="hes_before_installation" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="hes_before_installation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="breach" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="breach"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="percnt_sim_inf_avai_be4_installation" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="percnt_sim_inf_avai_be4_installation"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<field name="month_year" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="month_year"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sla_8_sim_info"/>
+	</field>
+	<variable name="days1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{days}]]></variableExpression>
+	</variable>
+	<variable name="total1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<variable name="hes_before_installation1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{hes_before_installation}]]></variableExpression>
+	</variable>
+	<variable name="breach1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{breach}]]></variableExpression>
+	</variable>
+	<variable name="percnt_sim_inf_avai_be4_installation1" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{percnt_sim_inf_avai_be4_installation}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="14" width="555" height="34" backcolor="#7EB1F7" uuid="12929415-3e63-4008-a0e3-2fa3003931c2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SLA#8 SIM Information Availability]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="48" width="555" height="20" backcolor="#7EB1F7" uuid="a3e328c6-d6c1-49ec-a0ba-7609f28add71">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SLA for the Month:"+$F{month_year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="90" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="81" height="90" backcolor="#FFB35C" uuid="3444029c-a57d-4ae9-a808-abb74c91e560">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e3c3ffef-d13c-4710-a40d-f8b9e74d05a4"/>
+				</reportElement>
+				<box topPadding="3" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[STATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="81" y="0" width="79" height="90" backcolor="#FFB35C" uuid="09abee2a-ad93-40af-bf0a-c17467e313c2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="34cfe232-d781-40b8-96ea-eec539ed15e7"/>
+				</reportElement>
+				<box topPadding="3" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[DISCOM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="160" y="0" width="79" height="90" backcolor="#FFB35C" uuid="7ad14397-765f-452f-9876-55c338f38146">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e370fb9-7be1-42ba-817a-e2cc4ef015ee"/>
+				</reportElement>
+				<box topPadding="3" leftPadding="6" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[No. of Meters Installed]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="239" y="0" width="79" height="90" backcolor="#FFB35C" uuid="abce5314-3d3b-4311-9b2e-b7aeea604141">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="71083b4b-a99b-43ac-a873-479aa54918ec"/>
+				</reportElement>
+				<box topPadding="3" leftPadding="2" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[SIM Information Available in HES Before Installation Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="318" y="0" width="79" height="90" backcolor="#FFB35C" uuid="af6ed06d-13eb-45c2-8bee-2e9473ac5966">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44c9eaac-f796-4e3d-93e4-ac1915ae671d"/>
+				</reportElement>
+				<box topPadding="3" leftPadding="2" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[SIM Information Not Available in HES Before Installation Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="397" y="0" width="79" height="90" backcolor="#FFB35C" uuid="2b0214c0-bc26-4fb0-b743-cfc18bbad3fc">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="46af5e84-9b53-45f4-a9c2-676f37452161"/>
+				</reportElement>
+				<box topPadding="3" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[% of SIM information Availability Before Installation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="476" y="0" width="79" height="90" backcolor="#FFB35C" uuid="9f8c09d2-ac4e-4131-aab7-42141fa95e51">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="65013fbe-2b32-4ed7-b18e-bb3a5ec1f35e"/>
+				</reportElement>
+				<box topPadding="3" leftPadding="6" bottomPadding="0">
+					<pen lineWidth="0.25"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[No.of SLA days Breached]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="81" height="30" uuid="2136b274-a29c-4ab6-a1a5-e1e6d2538b11">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e3c3ffef-d13c-4710-a40d-f8b9e74d05a4"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<leftPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{state}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="81" y="0" width="79" height="30" uuid="60b9a982-6bfc-4f44-8774-77d322debaa1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="34cfe232-d781-40b8-96ea-eec539ed15e7"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{discom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="160" y="0" width="79" height="30" uuid="b8958b00-96f9-4d41-bb59-c4f09e9025c2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7e370fb9-7be1-42ba-817a-e2cc4ef015ee"/>
+				</reportElement>
+				<box rightPadding="10">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="239" y="0" width="79" height="30" uuid="8919aeb7-4761-4c70-9b50-0e08ab8e9a99">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="71083b4b-a99b-43ac-a873-479aa54918ec"/>
+				</reportElement>
+				<box rightPadding="10">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{hes_before_installation}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="318" y="0" width="79" height="30" uuid="8e9a9b3c-deb2-44c0-b855-759523889878">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44c9eaac-f796-4e3d-93e4-ac1915ae671d"/>
+				</reportElement>
+				<box rightPadding="10">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{breach}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="397" y="0" width="79" height="30" uuid="15856df7-dcb8-4e0e-acc8-0fe492b80fe4">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="46af5e84-9b53-45f4-a9c2-676f37452161"/>
+				</reportElement>
+				<box rightPadding="10">
+					<pen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{percnt_sim_inf_avai_be4_installation}+" %"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="476" y="0" width="79" height="30" uuid="474dccb9-771a-46e6-b97a-3494d50a1b70">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="65013fbe-2b32-4ed7-b18e-bb3a5ec1f35e"/>
+				</reportElement>
+				<box rightPadding="10">
+					<pen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{days}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH:mm a">
+				<reportElement x="64" y="6" width="111" height="20" uuid="5ad8b3bd-c8db-48f6-aed9-7917af395702"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="6" width="63" height="20" uuid="83137a55-2cba-4525-a4ea-9449b4dccc74">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Print Date  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="460" y="6" width="52" height="20" uuid="91939c0b-6f2d-4d7c-af36-54a5447d9fd4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="512" y="6" width="42" height="20" uuid="c97de722-3c0e-4897-a134-ee724dec7374">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="4" width="555" height="1" uuid="0abe036d-ce4a-4b3e-9995-f2968ab2eb48">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="176" y="6" width="285" height="20" uuid="8f2b77a8-d4f7-4f58-bcd9-455a5ec552c6">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[This is system generated Report.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="38" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="476" y="0" width="79" height="30" backcolor="#FFB35C" uuid="2d9cec1a-c787-4612-a374-178193dfc64e"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{days1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="160" y="0" width="79" height="30" backcolor="#FFB35C" uuid="a5072499-1529-42d6-9315-c4753a422397"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="239" y="0" width="79" height="30" backcolor="#FFB35C" uuid="8cdf338f-9d4a-45bf-a7be-7f3f7a1e626c"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{hes_before_installation1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="318" y="0" width="79" height="30" backcolor="#FFB35C" uuid="e32c7e8a-6dc8-4295-94bf-dc5595a573d6"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{breach1}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="397" y="0" width="79" height="30" backcolor="#FFB35C" uuid="62d1386c-6ca6-4bce-ab8a-53a15474941a"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{hes_before_installation1}*100)/$V{total1}+" %"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="160" height="30" backcolor="#FFB35C" uuid="3439ed09-407b-4898-bfc9-2b7a37f97332"/>
+				<box rightPadding="10">
+					<pen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="2" width="554" height="30" uuid="039df31c-9a9f-431d-87d4-0abaa0ce10fc"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="20" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[No Data Exist in Selected Data Range ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

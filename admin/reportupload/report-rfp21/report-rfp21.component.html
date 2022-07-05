@@ -1,0 +1,41 @@
+<div class="mat-typography" fxLayoutAlign="center center">
+  <h1>RFP 21 Upload</h1>
+</div>
+
+
+<form  autocomplete="off" (ngSubmit)="uploadReport()">
+  <mat-card fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center"
+    fxFlexOffset="5">
+      <div fxLayout="column" fxLayoutAlign="start center">
+
+          <input
+          type="file"
+          id="fileInput"
+          #fileInput
+          (change)="selectFile($event)"
+          name="fileInput"
+          accept=".csv"
+        />
+      </div>
+    </div>
+    <mat-card-actions fxLayout="column" fxLayoutAlign="start start"  >
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        dir="ltr"
+        fxFlex="10"
+        fxFlexOffset="5" [disabled]="file==null"
+      >
+      <mat-icon>cloud_upload</mat-icon> Upload
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="overlay" *ngIf="spinner">
+    <div class="spinner">
+      <mat-progress-spinner diameter="50" mode="indeterminate" color="accent">
+      </mat-progress-spinner>
+    </div>
+  </div>
+</form>

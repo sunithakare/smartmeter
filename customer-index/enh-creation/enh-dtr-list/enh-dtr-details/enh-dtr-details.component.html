@@ -1,0 +1,59 @@
+<form
+  [formGroup]="enhDtrForm"
+  (ngSubmit)="saveEnhDtr()"
+  autocomplete="off"
+  (keydown.enter)="$event.preventDefault()"
+  (keydown.shift.enter)="$event.preventDefault()"
+>
+<mat-card>
+  <div fxLayout="row" fxLayoutAlign="space-around start">
+    <div fxLayout="column" fxLayoutAlign="space-around start">
+      <mat-form-field appearance="fill">
+        <mat-label>Division</mat-label>
+        <input (change)="getByDivision($event)" type="text" matInput formControlName="division" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Feeder</mat-label>
+        <mat-select formControlName="feeder">
+          <mat-option *ngFor="let fed of storeCode" [value]="fed.code">{{fed.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input type="text" matInput formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Code</mat-label>
+        <input type="text" matInput formControlName="code" />
+      </mat-form-field>
+
+    </div>
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <mat-form-field appearance="fill">
+        <mat-label>Dtr Rating</mat-label>
+        <mat-select formControlName="dtrRating">
+          <mat-option value="1">1</mat-option>
+          <mat-option value="2">2</mat-option>
+          <mat-option value="3">3</mat-option>
+          <mat-option value="4">4</mat-option>
+          <mat-option value="5">5</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Location</mat-label>
+        <input type="text" matInput formControlName="location" />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Landmark</mat-label>
+        <input type="text" matInput formControlName="landmark" />
+      </mat-form-field>
+    </div>
+
+  </div>
+  <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center start">
+    <button mat-raised-button type="submit" color="warn" fxFlex="8" (click)="closeDetailsTab()" > Cancle </button>
+    <button mat-raised-button type="submit" color="primary" fxFlex="8"> Save</button>
+  </div>
+</mat-card>
+</form>

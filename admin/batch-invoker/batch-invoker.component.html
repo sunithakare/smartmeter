@@ -1,0 +1,14 @@
+<div class="mat-typography" fxLayoutAlign="center center">
+  <h1>Batch Status</h1>
+</div>
+<div  fxLayout='column' fxLayoutAlign="center center" >
+
+  <mat-form-field  appearance="fill" style="margin-left: 10px;">
+    <mat-label>Batch Name</mat-label>
+    <mat-select [(value)]="batchName">
+      <mat-option  value="importCiMasterDataJob"> CI Master Data Upload</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-stroked-button color="primary"  style="margin-left: 10px;" (click)="checkStatus()" [disabled]="!batchName" *ngIf="!invokeBatch"> Check Status </button>
+  <button mat-stroked-button color="primary"  style="margin-left: 10px;" (click)="runBatch()" [disabled]="!batchName" *ngIf="invokeBatch"> Run Batch </button>
+</div>

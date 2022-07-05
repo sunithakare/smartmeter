@@ -1,0 +1,59 @@
+<form [formGroup]="enhSubStationForm" (ngSubmit)="saveSubStationData()"  autocomplete="off" (keydown.enter)="$event.preventDefault()"
+    (keydown.shift.enter)="$event.preventDefault()">
+    <mat-card>
+      <div fxLayout="row" fxLayoutAlign="space-around start">
+        <div fxLayout="column" fxLayoutAlign="space-around start">
+
+            <mat-form-field appearance="fill">
+              <mat-label>Division Code </mat-label>
+              <input type="text" matInput formControlName="division">
+              <mat-error *ngIf="enhSubStationForm.controls['division'].hasError('required')">
+                Division is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>SubStation Name </mat-label>
+                <input type="text" matInput formControlName="name">
+                <mat-error *ngIf="enhSubStationForm.controls['name'].hasError('required')">
+                  SubStation Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+          <mat-form-field appearance="fill">
+              <mat-label>SubStation Code </mat-label>
+              <input type="text" matInput formControlName="code">
+              <mat-error *ngIf="enhSubStationForm.controls['code'].hasError('required')">
+                SubStation Code is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="start start">
+            <mat-form-field appearance="fill">
+              <mat-label>Lattitude/Longitude </mat-label>
+              <input type="text" matInput formControlName="location">
+              <mat-error *ngIf="enhSubStationForm.controls['location'].hasError('required')">
+                Lattitude/Longitude is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Landmark </mat-label>
+            <input type="text" matInput formControlName="landmark">
+            <mat-error *ngIf="enhSubStationForm.controls['landmark'].hasError('required')">
+              landmark is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        </div>
+      </div>
+
+      <!-- <div fxLayout="row" fxLayoutAlign="space-around end">
+        <button mat-raised-button type="button" color="primary" (click)="closeDetailsTab()" >Cancel</button>
+        <button mat-raised-button type="submit" color="primary" *ngIf="isEditable" >Save</button>
+        </div> -->
+        <mat-card-actions fxLayout="row" fxLayoutAlign="center start">
+        <button mat-raised-button type="submit" (click)="closeDetailsTab()" fxFlex="8" color="warn">Cancel</button>
+        <button mat-raised-button type="submit" color="primary" fxFlex="8">Save</button>
+       </mat-card-actions>
+    </mat-card>
+  </form>

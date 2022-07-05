@@ -1,0 +1,148 @@
+<form
+  [formGroup]="ciAgencyForm"
+  (ngSubmit)="saveCiAgency()"
+  autocomplete="off"
+  (keydown.enter)="$event.preventDefault()"
+  (keydown.shift.enter)="$event.preventDefault()"
+>
+  <!-- {{discomList | json}} -->
+  <!-- {{allocationDataStore|json}} -->
+  <mat-card>
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px">
+        <!-- allocationDataStore:any[]=['CI','MI','ENH','O&M']; -->
+        <mat-form-field appearance="fill">
+          <mat-label>Allocation Data Type</mat-label>
+          <mat-select formControlName="allocationData" [disabled]="!this.isEditable ||this.isNavigation">
+            <mat-option value="CI">CI</mat-option>
+            <mat-option value="MI">MI</mat-option>
+            <mat-option value="ENH">ENH</mat-option>
+            <mat-option value="O&M">O&M</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="ciAgencyForm.controls['allocationData'].hasError('required')"
+          >
+            Alocation Data is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Agency Code</mat-label>
+          <input type="text" matInput formControlName="agencyCode" (change)="validateAgencyCode()"/>
+          <mat-error *ngIf="ciAgencyForm.controls['agencyCode'].hasError('required')" >
+            Agency Code is <strong>required</strong>
+          </mat-error>
+          <mat-error *ngIf="ciAgencyForm.controls['agencyCode'].hasError('Invalid Agency')" >
+            Agency Code is <strong>Invalid</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Allocation</mat-label>
+          <mat-select formControlName="allocation" [disabled]="!isEditable">
+            <mat-option value="fresh">Fresh</mat-option>
+            <mat-option value="reallocation">Reallocation</mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="ciAgencyForm.controls['allocation'].hasError('required')"
+          >
+            Allocation is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+</div>
+        <ng-container>
+          <mat-form-field appearance="fill">
+            <mat-label>State</mat-label>
+            <mat-select
+              formControlName="state"
+              (selectionChange)="fetchDiscomInStateforChange($event)"
+              [disabled]="!isEditable"
+            >
+              <mat-option *ngFor="let st of stateList" [value]="st.state">{{
+                st.stateName
+              }}</mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="ciAgencyForm.controls['state'].hasError('required')"
+            >
+              State is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Discom</mat-label>
+            <mat-select formControlName="discom" (selectionChange)="fetchCityInDiscomforChange($event)" [disabled]="!isEditable" >
+              <mat-option *ngFor="let ct of allDiscomList" [value]="ct.discom" >{{ ct.discomName }}</mat-option >
+            </mat-select>
+            <mat-error
+              *ngIf="ciAgencyForm.controls['discom'].hasError('required')"
+            >
+              Discom is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>City</mat-label>
+            <mat-select formControlName="city" (selectionChange)="fetchDivisionInCityforChange($event)" [disabled]="!isEditable" >
+              <mat-option *ngFor="let ct of allCityList" [value]="ct.city" >{{ ct.cityName }}</mat-option >
+            </mat-select>
+            <mat-error
+              *ngIf="ciAgencyForm.controls['city'].hasError('required')"
+            >
+              city is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill" *ngIf="isSubDivisionAllocation">
+            <mat-label>Division</mat-label>
+            <mat-select formControlName="divisionFilter" (selectionChange)="fetchSubDivisionListChange($event)"  [disabled]="!isEditable"  >
+              <mat-option *ngFor="let ct of divisionList" [value]="ct.division" >{{ ct.divisionName }}</mat-option >
+            </mat-select>
+            <mat-error
+              *ngIf="ciAgencyForm.controls['divisionFilter'].hasError('required')"
+            >
+              Division is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <h2 *ngIf="allDivisionS.length>0 && !isSubDivisionAllocation">Available Divisions</h2>
+        <h2 *ngIf="allDivisionS.length>0 && isSubDivisionAllocation">Available Sub-Divisions</h2>
+      </div>
+      <!-- <div fxLayout="column" fxLayoutAlign="space-around center"> -->
+
+<div fxLayout="row" fxLayoutAlign="space-evenly end" >
+  <div fxLayout="column"  >
+    <ng-container  *ngFor="let item of allDivisionS ; let i = index" >
+      <div fxLayout="row" fxLayoutAlign="start end" *ngIf="i%3==0">
+        <mat-checkbox [value]="item.divCode" (change)="checkedChange($event)" [disabled]="!isEditable" [checked]="this.ciAgencyForm.controls['division'].value.indexOf(item.divCode)>=0"> {{item.divCode+'('+item.count+')'}}</mat-checkbox>
+    </div >
+    </ng-container>
+  </div >
+  <div fxLayout="column"  >
+    <ng-container  *ngFor="let item of allDivisionS ; let i = index" >
+      <div fxLayout="row" fxLayoutAlign="start end" *ngIf="i%3==1">
+        <mat-checkbox [value]="item.divCode" (change)="checkedChange($event)" [disabled]="!isEditable" [checked]="this.ciAgencyForm.controls['division'].value.indexOf(item.divCode)>=0"> {{item.divCode+'('+item.count+')'}}</mat-checkbox>
+      </div >
+    </ng-container>
+  </div >
+  <div fxLayout="column"  >
+    <ng-container  *ngFor="let item of allDivisionS ; let i = index" >
+      <div fxLayout="row" fxLayoutAlign="start end" *ngIf="i%3==2">
+        <mat-checkbox [value]="item.divCode" (change)="checkedChange($event)" [disabled]="!isEditable" [checked]="this.ciAgencyForm.controls['division'].value.indexOf(item.divCode)>=0"> {{item.divCode+'('+item.count+')'}}</mat-checkbox>
+      </div >
+    </ng-container>
+  </div >
+  </div >
+
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-evenly start">
+      <button mat-raised-button type="button" color="warn" dir="rtl" fxFlexOffset="10" fxFlex="10"  (click)="closeDetailsTab()"> Cancel </button>
+      <button mat-raised-button type="submit" color="primary" dir="rtl" fxFlexOffset="10" fxFlex="10" *ngIf="isEditable" > Save </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="overlay" *ngIf="spinner">
+    <div class="spinner">
+      <mat-progress-spinner diameter="50" mode="indeterminate" color="accent">
+      </mat-progress-spinner>
+    </div>
+  </div>
+</form>

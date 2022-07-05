@@ -1,0 +1,94 @@
+<form [formGroup]="enhFeederForm" autocomplete="off">
+    <mat-card>
+      <div fxLayout="row" fxLayoutAlign="space-around start">
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+
+          <mat-form-field appearance="fill">
+            <mat-label>Division</mat-label>
+            <input (change)="getSubStationByDivisionOnChange($event)" type="text" matInput formControlName="division" />
+            <mat-error *ngIf="enhFeederForm.controls['division'].hasError('required')">
+              Division is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" >
+            <mat-label>SubStation</mat-label>
+            <mat-select formControlName="subStation" >
+            <mat-option  *ngFor="let sub of storeCode" [value]="sub.code">{{sub.name}}</mat-option>
+            </mat-select>
+            <!-- <input formControlName="subStation" matInput> -->
+            <mat-error *ngIf="enhFeederForm.controls['subStation'].hasError('required')">
+              SubStation is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input type="text" matInput formControlName="name" />
+            <mat-error *ngIf="enhFeederForm.controls['name'].hasError('required')">
+              Name is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+
+<mat-form-field appearance="fill">
+              <mat-label>Code</mat-label>
+              <input type="text" matInput formControlName="code" />
+              <mat-error *ngIf="enhFeederForm.controls['code'].hasError('required')">
+                Code is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+
+          </div>
+          <div fxLayout="column" fxLayoutAlign="space-around center">
+
+
+
+          <mat-form-field appearance="fill">
+            <mat-label>Location</mat-label>
+            <input type="text" matInput formControlName="location" />
+            <mat-error *ngIf="enhFeederForm.controls['location'].hasError('required')">
+              Location is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="fill">
+            <mat-label>Landmark</mat-label>
+            <input type="text" matInput formControlName="landmark" />
+            <mat-error *ngIf="enhFeederForm.controls['landmark'].hasError('required')">
+              Landmark is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+          <!-- <mat-card-actions fxLayout="row" fxLayoutAlign="start start"> -->
+            <div fxLayout="row" fxLayoutAlign="center start">
+            <button
+              mat-raised-button
+              color="warn"
+              fxFlexOffset="5"
+              fxFlex="8"
+              (click)="cancelEnhFeederDetails()"
+            >
+              Cancel
+            </button>
+            <button
+              mat-raised-button
+              color="primary"
+              fxFlexOffset="5"
+              fxFlex="8"
+              (click)="saveEnhFeederData()"
+            >
+              Save
+            </button>
+          <!-- </mat-card-actions> -->
+
+          </div>
+          </mat-card>
+          </form>
+
+        <!-- </mat-card> -->
+        <!-- </form> -->

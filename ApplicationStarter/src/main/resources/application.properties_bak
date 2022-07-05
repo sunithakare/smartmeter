@@ -1,0 +1,71 @@
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialect
+spring.datasource.url=jdbc:postgresql://192.168.99.182:5432/lntdev
+spring.datasource.username=postgres
+spring.datasource.password=postgres@lnt@3636
+spring.jpa.properties.hibernate.default_schema=custom
+#To create Db
+spring.jpa.generate-ddl=false
+spring.jpa.hibernate.ddl-auto=none
+
+spring.datasource.initialization-mode=never
+spring.datasource.initialize=false
+#spring.datasource.schema=classpath:/schema.sql
+spring.datasource.continue-on-error=true
+spring.datasource.auto-commit=false
+
+logging.level.org.springframework=TRACE
+logging.level.com=TRACE
+
+spring.security.user.name=admin1
+spring.security.user.password=admin1
+
+spring.jackson.date-format=dd/MM/yyyy
+
+spring.datasource.hikari.connectionTimeout=20000
+spring.datasource.hikari.maximumPoolSize=5
+spring.datasource.hikari.poolName=DATABASEPOOL
+
+
+reportpath=H:/Works/Envision/Reportdummy/
+fileUplaodPath=H:/Works/Envision/Reportdummy/
+#to show sql
+spring.jpa.properties.hibernate.show_sql=true
+#formatting
+spring.jpa.properties.hibernate.format_sql=true
+#printing parameter values in order
+logging.level.org.hibernate.type.descriptor.sql=trace
+#cacheConfig
+spring.cache.jcache.config=classpath:ehcache.xml
+
+
+
+###Email realted Congig
+#spring.mail.host: smtp.gmail.com
+#spring.mail.host=smtp-mail.outlook.com
+spring.mail.host=smtp.office365.com
+spring.mail.port=587
+spring.mail.username=enterprise360@envisionesl.com
+spring.mail.password=Envision@1234
+MailFromAddress=enterprise360@envisionesl.com
+
+# Other properties
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.connectiontimeout=5000
+spring.mail.properties.mail.smtp.timeout=5000
+spring.mail.properties.mail.smtp.writetimeout=5000
+
+# TLS , port 587
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+
+MailEnabled=true
+
+spring.servlet.multipart.enabled=true
+spring.servlet.multipart.location=${java.io.tmpdir}
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
+
+
+
+spring.batch.table-prefix=CUSTOM.BATCH_
+spring.batch.job.enabled=false

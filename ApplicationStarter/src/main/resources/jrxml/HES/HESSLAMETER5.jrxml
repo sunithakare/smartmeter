@@ -1,0 +1,1457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="HESSLAMETER5" pageWidth="595" pageHeight="842" whenNoDataType="NoDataSection" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" isIgnorePagination="true" uuid="5a72f301-b007-46f2-b426-035219ec7023">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="L and T"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="Dataset1" whenResourceMissingType="Empty" uuid="41dbb83f-94af-490f-828f-c71d49c1d06d">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="L and T"/>
+		<parameter name="Month" class="java.lang.String"/>
+		<parameter name="Year" class="java.lang.String"/>
+		<parameter name="Discom" class="java.lang.String"/>
+		<parameter name="State" class="java.lang.String"/>
+		<queryString language="SQL">
+			<![CDATA[Select 
+3 ID,
+owner,
+INITCAP(data_profile) data_profile,
+no_of_req_processed,
+no_of_req_process_within8hrs,
+percent_req_process_within8hrs,
+no_of_req_process_within24hrs,
+percent_req_process_within24hrs,
+ENVIRONMENT
+from  custom.recurring_data_delivery_blck_load_profile
+where month= $P{Month} 
+and year= $P{Year} 
+and owner= $P{Discom} 
+and environment= $P{State}
+UNION ALL
+Select 
+2 ID,
+owner,
+INITCAP(data_profile) data_profile,
+no_of_req_processed,
+no_of_req_process_within8hrs,
+percent_req_process_within8hrs,
+no_of_req_process_within24hrs,
+percent_req_process_within24hrs,
+ENVIRONMENT
+from  custom.recurring_data_delivery_daily_load_profile
+where month= $P{Month} 
+and year= $P{Year} 
+and owner= $P{Discom} 
+and environment= $P{State}
+UNION ALL
+Select 
+1 ID,
+owner,
+INITCAP(data_profile) data_profile,
+no_of_req_processed,
+no_of_req_process_within8hrs,
+percent_req_process_within8hrs,
+no_of_req_process_within24hrs,
+percent_req_process_within24hrs,
+ENVIRONMENT
+from  custom.recurring_data_delivery_monthly_bill_profile
+where month= $P{Month} 
+and year= $P{Year} 
+and owner= $P{Discom} 
+and environment= $P{State}
+order by id]]>
+		</queryString>
+		<field name="id" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="id"/>
+		</field>
+		<field name="owner" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="owner"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="data_profile" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="data_profile"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="no_of_req_processed" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="no_of_req_processed"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="no_of_req_process_within8hrs" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="no_of_req_process_within8hrs"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="percent_req_process_within8hrs" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="percent_req_process_within8hrs"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="no_of_req_process_within24hrs" class="java.lang.Integer">
+			<property name="com.jaspersoft.studio.field.label" value="no_of_req_process_within24hrs"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="percent_req_process_within24hrs" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="percent_req_process_within24hrs"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+		<field name="environment" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="environment"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="recurring_data_delivery_blck_load_profile"/>
+		</field>
+	</subDataset>
+	<parameter name="Month" class="java.lang.String"/>
+	<parameter name="Year" class="java.lang.String"/>
+	<parameter name="Discom" class="java.lang.String"/>
+	<parameter name="State" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[With Slameter5 as (
+/*Taken three table data by using union all query because no matching primary and foreign key between three tables*/
+select 
+no_of_req_process_within8hrs billing1,
+percent_req_process_within8hrs billing1per,
+case when percent_req_process_within8hrs >95 then percent_req_process_within8hrs else 0 end billing1per1,
+case when percent_req_process_within8hrs<=95 then percent_req_process_within8hrs else 0 end billing1per2,
+no_of_req_process_within24hrs billing2,
+percent_req_process_within24hrs billing2per,
+case when percent_req_process_within24hrs >99.9 then percent_req_process_within24hrs else 0 end billing2per1,
+case when percent_req_process_within24hrs<=99.9 then percent_req_process_within24hrs else 0 end billing2per2,
+0 block1,0 block1per,0 block1per1,0 block1per2,0 block2,0 block2per,0 block2per1,0 block2per2,
+0 daily1,0 daily1per,0 daily1per1,0 daily1per2,0 daily2,0 daily2per,0 daily2per1,0 daily2per2
+from  custom.recurring_data_delivery_monthly_bill_profile
+where month = $P{Month} 
+and year = $P{Year} 
+and owner = $P{Discom} 
+and environment = $P{State}
+UNION ALL
+select 			   
+0 billing1,0 billing1per,0 billing1per1,0 billing1per2,0 billing2,0 billing2per,0 billing2per1,0 billing2per2,	   
+no_of_req_process_within8hrs block1,
+percent_req_process_within8hrs block1per,
+case when percent_req_process_within8hrs >95 then percent_req_process_within8hrs else 0 end block1per1,
+case when percent_req_process_within8hrs<=95 then percent_req_process_within8hrs else 0 end block1per2,
+no_of_req_process_within24hrs block2,
+percent_req_process_within24hrs block2per,
+case when percent_req_process_within24hrs >99.9 then percent_req_process_within24hrs else 0 end block2per1,
+case when percent_req_process_within24hrs<=99.9 then percent_req_process_within24hrs else 0 end block2per2,		   
+0 daily1,  0 daily1per,  0 daily1per1,  0 daily1per2,  0 daily2,  0 daily2per,  0 daily2per1,  0 daily2per2
+from  custom.recurring_data_delivery_blck_load_profile
+where month = $P{Month} 
+and year = $P{Year} 
+and owner = $P{Discom} 
+and environment = $P{State}
+union all
+select 
+0 billing1,0 billing1per,0 billing1per1,0 billing1per2,0 billing2,0 billing2per,0 billing2per1,0 billing2per2,
+0 daily1,  0 daily1per,  0 daily1per1,  0 daily1per2,  0 daily2,  0 daily2per,  0 daily2per1,  0 daily2per2,
+no_of_req_process_within8hrs daily1,
+percent_req_process_within8hrs daily1per,
+case when percent_req_process_within8hrs >95 then percent_req_process_within8hrs else 0 end daily1per1,
+case when percent_req_process_within8hrs<=95 then percent_req_process_within8hrs else 0 end daily1per2,
+no_of_req_process_within24hrs daily2,
+percent_req_process_within24hrs daily2per,
+case when percent_req_process_within24hrs >99.9 then percent_req_process_within24hrs else 0 end daily2per1,
+case when percent_req_process_within24hrs<=99.9 then percent_req_process_within24hrs else 0 end daily2per2
+from  custom.recurring_data_delivery_daily_load_profile
+where month = $P{Month} 
+and year = $P{Year} 
+and owner = $P{Discom} 
+and environment = $P{State})
+/*Common table expression*/
+select 
+to_char(custom.last_day(to_date(('22-'|| $P{Month} ||'-'|| $P{Year} ),'dd/mm/yyyy')),'dd-Mon-yyyy') lastdate,
+ to_char(to_date(('01-'|| $P{Month} ||'-'|| $P{Year}),'dd/mm/yyyy'),'dd-Mon-yyyy')  firstdate,
+sum(billing1)                  as billing1,
+sum(billing1per)               as billing1per,
+sum(billing1per1)              as billing1per1,
+sum(billing1per2)              as billing1per2,
+sum(billing1per1+billing1per2) as billing1per3,
+sum(billing2)                  as billing2,
+sum(billing2per)               as billing2per,
+sum(billing2per1)              as billing2per1,
+sum(billing2per2)              as billing2per2,
+sum(billing2per1+billing2per2) as billing2per3,
+sum(block1)                    as block1,
+sum(block1per)                 as block1per,
+sum(block1per1)                as block1per1,
+sum(block1per2)                as block1per2,
+sum(block1per1+block1per2)     as block1per3,
+sum(block2)                    as block2,
+sum(block2per)                 as block2per,
+sum(block2per1)                as block2per1,
+sum(block2per2)                as block2per2,
+sum(block2per1+block2per2)     as block2per3,
+sum(daily1)                    as daily1,
+sum(daily1per)                 as daily1per,
+sum(daily1per1)                as daily1per1,
+sum(daily1per2)                as daily1per2,
+sum(daily1per1+daily1per2)     as daily1per3,
+sum(daily2)                    as daily2,
+sum(daily2per)                 as daily2per,
+sum(daily2per1)                as daily2per1,
+sum(daily2per2)                as daily2per2,
+sum(daily2per1+daily2per2)     as daily2per3 
+from Slameter5
+group by to_char(custom.last_day(to_date(('22-'|| $P{Month} ||'-'|| $P{Year} ),'dd/mm/yyyy')),'dd-Mon-yyyy'),
+ to_char(to_date(('01-'|| $P{Month} ||'-'|| $P{Year}),'dd/mm/yyyy'),'dd-Mon-yyyy')]]>
+	</queryString>
+	<field name="lastdate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="lastdate"/>
+	</field>
+	<field name="firstdate" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="firstdate"/>
+	</field>
+	<field name="billing1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="billing1"/>
+	</field>
+	<field name="billing1per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing1per"/>
+	</field>
+	<field name="billing1per1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing1per1"/>
+	</field>
+	<field name="billing1per2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing1per2"/>
+	</field>
+	<field name="billing1per3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing1per3"/>
+	</field>
+	<field name="billing2" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="billing2"/>
+	</field>
+	<field name="billing2per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing2per"/>
+	</field>
+	<field name="billing2per1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing2per1"/>
+	</field>
+	<field name="billing2per2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing2per2"/>
+	</field>
+	<field name="billing2per3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="billing2per3"/>
+	</field>
+	<field name="block1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="block1"/>
+	</field>
+	<field name="block1per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block1per"/>
+	</field>
+	<field name="block1per1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block1per1"/>
+	</field>
+	<field name="block1per2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block1per2"/>
+	</field>
+	<field name="block1per3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block1per3"/>
+	</field>
+	<field name="block2" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="block2"/>
+	</field>
+	<field name="block2per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block2per"/>
+	</field>
+	<field name="block2per1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block2per1"/>
+	</field>
+	<field name="block2per2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block2per2"/>
+	</field>
+	<field name="block2per3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="block2per3"/>
+	</field>
+	<field name="daily1" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="daily1"/>
+	</field>
+	<field name="daily1per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily1per"/>
+	</field>
+	<field name="daily1per1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily1per1"/>
+	</field>
+	<field name="daily1per2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily1per2"/>
+	</field>
+	<field name="daily1per3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily1per3"/>
+	</field>
+	<field name="daily2" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="daily2"/>
+	</field>
+	<field name="daily2per" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily2per"/>
+	</field>
+	<field name="daily2per1" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily2per1"/>
+	</field>
+	<field name="daily2per2" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily2per2"/>
+	</field>
+	<field name="daily2per3" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="daily2per3"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="115" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="90" width="554" height="25" backcolor="#7EB1F7" uuid="cc878c26-5852-461b-84c0-a5ef92b2852a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["From " + $F{firstdate}+" To "+$F{lastdate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="60" width="554" height="30" backcolor="#7EB1F7" uuid="74b8ff78-d2b0-450f-be9e-6fd6d9d52dc7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SLA Report From " + $P{State} +"-"+$P{Discom}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="0" y="15" width="554" height="45" backcolor="#7EB1F7" uuid="d8d98bb0-20a3-4bd7-aaa6-dd104de125fb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" HES SLA #1.5 - Recurring Data Delivery "]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="355" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="554" height="355" backcolor="#F7F5F5" uuid="b37b92e7-52ec-4d7a-af01-9fe64f2ae4ee">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</frame>
+			<meterChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement mode="Opaque" x="20" y="25" width="150" height="132" backcolor="#FFFFFF" uuid="14e10778-7d44-4308-8c70-fad8ba6d2bdd">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineColor="#000000"/>
+					</box>
+					<chartTitle color="#FFFFFF">
+						<font size="0"/>
+						<titleExpression><![CDATA[0]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="1"/>
+						<subtitleExpression><![CDATA[0]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Top">
+						<font size="0"/>
+					</chartLegend>
+				</chart>
+				<valueDataset>
+					<dataset resetType="Report"/>
+					<valueExpression><![CDATA[$F{billing1per}]]></valueExpression>
+				</valueDataset>
+				<meterPlot shape="chord" angle="180" tickInterval="180.0" meterColor="rgba(0, 0, 0, 0.21568628)" needleColor="#000000">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" foregroundAlpha="1.0"/>
+					<tickLabelFont>
+						<font size="0" isBold="true"/>
+					</tickLabelFont>
+					<valueDisplay color="#000000" mask="0">
+						<font size="0"/>
+					</valueDisplay>
+					<dataRange>
+						<lowExpression><![CDATA[0]]></lowExpression>
+						<highExpression><![CDATA[100]]></highExpression>
+					</dataRange>
+					<meterInterval color="#1D9C09" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{billing1per1}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FF5F03" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{billing1per2}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FFFFFF" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[$F{billing1per3}]]></lowExpression>
+							<highExpression><![CDATA[100]]></highExpression>
+						</dataRange>
+					</meterInterval>
+				</meterPlot>
+			</meterChart>
+			<ellipse>
+				<reportElement mode="Opaque" x="58" y="100" width="72" height="72" backcolor="#FFFFFF" uuid="104930c6-ca59-4172-80c1-d80c5d4e3b82">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+				<reportElement key="" mode="Opaque" x="67" y="115" width="54" height="24" forecolor="#040482" backcolor="#FFFFFF" uuid="f7add0b2-3894-436c-b4fd-f22d2a12c471">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billing1per}+"%"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="20" y="25" width="150" height="34" forecolor="#000000" backcolor="#0AFAEE" uuid="eb6d997c-6e64-4e8d-8871-50b5da7ca773">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Billing % Within 8h <br>( target 95%)]]></text>
+			</staticText>
+			<meterChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement mode="Opaque" x="200" y="25" width="150" height="132" backcolor="#FFFFFF" uuid="6a709fb1-db67-4f5d-bc0e-dfd72c6cc2e9">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineColor="#000000"/>
+					</box>
+					<chartTitle color="#FFFFFF">
+						<font size="0"/>
+						<titleExpression><![CDATA[0]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="1"/>
+						<subtitleExpression><![CDATA[0]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Top">
+						<font size="0"/>
+					</chartLegend>
+				</chart>
+				<valueDataset>
+					<dataset resetType="Report"/>
+					<valueExpression><![CDATA[$F{daily1per}]]></valueExpression>
+				</valueDataset>
+				<meterPlot shape="chord" angle="180" tickInterval="180.0" meterColor="rgba(0, 0, 0, 0.21568628)" needleColor="#000000">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" foregroundAlpha="1.0"/>
+					<tickLabelFont>
+						<font size="0" isBold="true"/>
+					</tickLabelFont>
+					<valueDisplay color="#000000" mask="0">
+						<font size="0"/>
+					</valueDisplay>
+					<dataRange>
+						<lowExpression><![CDATA[0]]></lowExpression>
+						<highExpression><![CDATA[100]]></highExpression>
+					</dataRange>
+					<meterInterval color="#1D9C09" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{daily1per1}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FF5F03" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{daily1per2}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FFFFFF" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[$F{daily1per3}]]></lowExpression>
+							<highExpression><![CDATA[100]]></highExpression>
+						</dataRange>
+					</meterInterval>
+				</meterPlot>
+			</meterChart>
+			<ellipse>
+				<reportElement mode="Opaque" x="238" y="100" width="72" height="72" backcolor="#FFFFFF" uuid="dde1c63f-9580-49bc-8324-fd198ed173c0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+				<reportElement key="" mode="Opaque" x="247" y="115" width="54" height="24" forecolor="#040482" backcolor="#FFFFFF" uuid="2bcb7353-9116-4fc6-9891-848250a86782">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{daily1per}+"%"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="200" y="25" width="150" height="34" forecolor="#000000" backcolor="#0AFAEE" uuid="1b98a166-46f8-497b-a020-e4609320a0f7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily % Within 8h <br>( target 95%)]]></text>
+			</staticText>
+			<meterChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement mode="Opaque" x="380" y="25" width="150" height="132" backcolor="#FFFFFF" uuid="307ee772-b4c1-4dcb-9620-00b7c46bde49">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineColor="#000000"/>
+					</box>
+					<chartTitle color="#FFFFFF">
+						<font size="0"/>
+						<titleExpression><![CDATA[0]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="1"/>
+						<subtitleExpression><![CDATA[0]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Top">
+						<font size="0"/>
+					</chartLegend>
+				</chart>
+				<valueDataset>
+					<dataset resetType="Report"/>
+					<valueExpression><![CDATA[$F{block1per}]]></valueExpression>
+				</valueDataset>
+				<meterPlot shape="chord" angle="180" tickInterval="180.0" meterColor="rgba(0, 0, 0, 0.21568628)" needleColor="#000000">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" foregroundAlpha="1.0"/>
+					<tickLabelFont>
+						<font size="0" isBold="true"/>
+					</tickLabelFont>
+					<valueDisplay color="#000000" mask="0">
+						<font size="0"/>
+					</valueDisplay>
+					<dataRange>
+						<lowExpression><![CDATA[0]]></lowExpression>
+						<highExpression><![CDATA[100]]></highExpression>
+					</dataRange>
+					<meterInterval color="#1D9C09" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{block1per1}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FF5F03" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{block1per2}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FFFFFF" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[$F{block1per3}]]></lowExpression>
+							<highExpression><![CDATA[100]]></highExpression>
+						</dataRange>
+					</meterInterval>
+				</meterPlot>
+			</meterChart>
+			<ellipse>
+				<reportElement mode="Opaque" x="418" y="100" width="72" height="72" backcolor="#FFFFFF" uuid="50cf6a9f-ca3e-44e0-8329-0d1153c3f133">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+				<reportElement key="" mode="Opaque" x="427" y="115" width="54" height="24" forecolor="#040482" backcolor="#FFFFFF" uuid="f8d118a5-e03b-487d-ba27-96c2f18deb19">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{block1per}+"%"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="380" y="25" width="150" height="34" forecolor="#000000" backcolor="#0AFAEE" uuid="c59a74f2-499d-42d5-b38c-18b238b245e7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Block % Within 8h <br>( target 95%)]]></text>
+			</staticText>
+			<meterChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement mode="Opaque" x="20" y="181" width="150" height="132" backcolor="#FFFFFF" uuid="09a3b34e-47ab-4049-a0a9-995bacd6ad5d">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineColor="#000000"/>
+					</box>
+					<chartTitle color="#FFFFFF">
+						<font size="0"/>
+						<titleExpression><![CDATA[0]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="1"/>
+						<subtitleExpression><![CDATA[0]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Top">
+						<font size="0"/>
+					</chartLegend>
+				</chart>
+				<valueDataset>
+					<dataset resetType="Report"/>
+					<valueExpression><![CDATA[$F{billing2per}]]></valueExpression>
+				</valueDataset>
+				<meterPlot shape="chord" angle="180" tickInterval="180.0" meterColor="rgba(0, 0, 0, 0.21568628)" needleColor="#000000">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" foregroundAlpha="1.0"/>
+					<tickLabelFont>
+						<font size="0" isBold="true"/>
+					</tickLabelFont>
+					<valueDisplay color="#000000" mask="0">
+						<font size="0"/>
+					</valueDisplay>
+					<dataRange>
+						<lowExpression><![CDATA[0]]></lowExpression>
+						<highExpression><![CDATA[100]]></highExpression>
+					</dataRange>
+					<meterInterval color="#1D9C09" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{billing2per1}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FF5F03" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{billing2per2}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FFFFFF" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[$F{billing2per3}]]></lowExpression>
+							<highExpression><![CDATA[100]]></highExpression>
+						</dataRange>
+					</meterInterval>
+				</meterPlot>
+			</meterChart>
+			<ellipse>
+				<reportElement mode="Opaque" x="58" y="256" width="72" height="72" backcolor="#FFFFFF" uuid="84819fe7-ad67-403d-99c9-ef02e48ea4ef">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+				<reportElement key="" mode="Opaque" x="67" y="271" width="54" height="24" forecolor="#040482" backcolor="#FFFFFF" uuid="a21070e7-d9b5-4143-a21c-c448dd25621a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billing2per}+"%"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="20" y="181" width="150" height="34" forecolor="#000000" backcolor="#0AFAEE" uuid="066de02f-0f70-482d-843c-cec028c10e3b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Billing % Within 24h <br>( target 99.9%)]]></text>
+			</staticText>
+			<meterChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement mode="Opaque" x="200" y="181" width="150" height="132" backcolor="#FFFFFF" uuid="0c758b49-ed79-467a-b3d0-ea8fbc8538ff">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineColor="#000000"/>
+					</box>
+					<chartTitle color="#FFFFFF">
+						<font size="0"/>
+						<titleExpression><![CDATA[0]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="1"/>
+						<subtitleExpression><![CDATA[0]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Top">
+						<font size="0"/>
+					</chartLegend>
+				</chart>
+				<valueDataset>
+					<dataset resetType="Report"/>
+					<valueExpression><![CDATA[$F{daily2per}]]></valueExpression>
+				</valueDataset>
+				<meterPlot shape="chord" angle="180" tickInterval="180.0" meterColor="rgba(0, 0, 0, 0.21568628)" needleColor="#000000">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" foregroundAlpha="1.0"/>
+					<tickLabelFont>
+						<font size="0" isBold="true"/>
+					</tickLabelFont>
+					<valueDisplay color="#000000" mask="0">
+						<font size="0"/>
+					</valueDisplay>
+					<dataRange>
+						<lowExpression><![CDATA[0]]></lowExpression>
+						<highExpression><![CDATA[100]]></highExpression>
+					</dataRange>
+					<meterInterval color="#1D9C09" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{daily2per1}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FF5F03" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{daily2per2}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FFFFFF" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[$F{daily2per3}]]></lowExpression>
+							<highExpression><![CDATA[100]]></highExpression>
+						</dataRange>
+					</meterInterval>
+				</meterPlot>
+			</meterChart>
+			<ellipse>
+				<reportElement mode="Opaque" x="238" y="256" width="72" height="72" backcolor="#FFFFFF" uuid="f7818038-e186-4b2d-a3a8-11d0503d6ebe">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+				<reportElement key="" mode="Opaque" x="247" y="271" width="54" height="24" forecolor="#040482" backcolor="#FFFFFF" uuid="5f4f69bd-8835-48c5-9156-f32b4bc590bc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{daily2per}+"%"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="200" y="181" width="150" height="34" forecolor="#000000" backcolor="#0AFAEE" uuid="7c46b4d9-ad7b-4bfd-a832-84047b2178ed">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily % Within 24h <br>( target 99.9%)]]></text>
+			</staticText>
+			<meterChart>
+				<chart isShowLegend="false" evaluationTime="Report">
+					<reportElement mode="Opaque" x="380" y="181" width="150" height="132" backcolor="#FFFFFF" uuid="15605c4a-0647-47ba-9f97-ed29d29cd9ec">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<box>
+						<pen lineWidth="0.25" lineColor="#000000"/>
+					</box>
+					<chartTitle color="#FFFFFF">
+						<font size="0"/>
+						<titleExpression><![CDATA[0]]></titleExpression>
+					</chartTitle>
+					<chartSubtitle>
+						<font size="1"/>
+						<subtitleExpression><![CDATA[0]]></subtitleExpression>
+					</chartSubtitle>
+					<chartLegend position="Top">
+						<font size="0"/>
+					</chartLegend>
+				</chart>
+				<valueDataset>
+					<dataset resetType="Report"/>
+					<valueExpression><![CDATA[$F{block2per}]]></valueExpression>
+				</valueDataset>
+				<meterPlot shape="chord" angle="180" tickInterval="180.0" meterColor="rgba(0, 0, 0, 0.21568628)" needleColor="#000000">
+					<plot orientation="Horizontal" backgroundAlpha="1.0" foregroundAlpha="1.0"/>
+					<tickLabelFont>
+						<font size="0" isBold="true"/>
+					</tickLabelFont>
+					<valueDisplay color="#000000" mask="0">
+						<font size="0"/>
+					</valueDisplay>
+					<dataRange>
+						<lowExpression><![CDATA[0]]></lowExpression>
+						<highExpression><![CDATA[100]]></highExpression>
+					</dataRange>
+					<meterInterval color="#1D9C09" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{block2per1}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FF5F03" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[0]]></lowExpression>
+							<highExpression><![CDATA[$F{block2per2}]]></highExpression>
+						</dataRange>
+					</meterInterval>
+					<meterInterval color="#FFFFFF" alpha="1.0">
+						<dataRange>
+							<lowExpression><![CDATA[$F{block2per3}]]></lowExpression>
+							<highExpression><![CDATA[100]]></highExpression>
+						</dataRange>
+					</meterInterval>
+				</meterPlot>
+			</meterChart>
+			<ellipse>
+				<reportElement mode="Opaque" x="418" y="256" width="72" height="72" backcolor="#FFFFFF" uuid="06470d10-3d22-4e97-b41f-4236f6eb370c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</ellipse>
+			<textField isStretchWithOverflow="true" pattern="#,##0.###;(#,##0.###-)" isBlankWhenNull="true">
+				<reportElement key="" mode="Opaque" x="427" y="271" width="54" height="24" forecolor="#040482" backcolor="#FFFFFF" uuid="58e6e73b-0278-4024-8036-638001948f2a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{block2per}+"%"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="380" y="181" width="150" height="34" forecolor="#000000" backcolor="#0AFAEE" uuid="bcfd0afa-0734-4b89-b5ee-d8a26f6b4dab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Block % Within 24h <br>( target 99.9%)]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="20" y="137" width="150" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="f986344f-6978-4af2-abc8-dbd3adc237c0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+					<topPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billing1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="200" y="137" width="150" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="714cc3a7-ebff-42fb-a1ea-399f9dba54ec">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+					<topPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{daily1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="380" y="137" width="150" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="bde6f40a-e34d-4e2e-ab6b-3672026dfa73">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+					<topPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{block1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="20" y="293" width="150" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="97a0cd8b-ee0d-4afc-a1cf-7f216bdbd9e8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+					<topPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{billing2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="200" y="293" width="150" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="8db53465-b081-4446-8c91-7077e755d218">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+					<topPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{daily2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="380" y="293" width="150" height="38" forecolor="#000000" backcolor="#FFFFFF" uuid="12e93e13-df65-4532-b4a3-fca7e377c443">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25" lineColor="#000000"/>
+					<topPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{block2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH:mm a">
+				<reportElement x="64" y="6" width="111" height="20" uuid="cdad3053-1f0e-4b63-8065-df1c29327b83"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="6" width="63" height="20" uuid="fa8642c0-e825-4cf1-99de-13128c4cbbe6">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Print Date  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="460" y="6" width="52" height="20" uuid="41c1fde4-9a29-4566-9784-840be4f7675d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="512" y="6" width="42" height="20" uuid="87db5056-d756-4f18-bc56-0b4270a6c15d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="4" width="555" height="1" uuid="131ca9b4-11db-478b-a4d1-69adbbc5e190">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="176" y="5" width="280" height="20" uuid="2aaafa2e-8c2b-427d-82fc-c333a6f04184">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[This is system generated Report.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="103" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="20" width="554" height="80" uuid="38e01592-9da4-42d3-ab11-0c20bc6a2379">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="Blank">
+					<datasetRun subDataset="Dataset1" uuid="587cadb3-2ea1-4045-9ad8-9acc5d5970e0">
+						<datasetParameter name="Discom">
+							<datasetParameterExpression><![CDATA[$P{Discom}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Month">
+							<datasetParameterExpression><![CDATA[$P{Month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="State">
+							<datasetParameterExpression><![CDATA[$P{State}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Year">
+							<datasetParameterExpression><![CDATA[$P{Year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="0b58fe1f-c67d-492d-8832-6036a770966a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="40" height="60" backcolor="#FFB35C" uuid="b6f54dda-01b4-4e93-86be-1fe0c34d86e7">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[Sr.No.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="40" height="20" backcolor="#F7F5F5" uuid="6e0f809a-8559-4944-8c77-2ab26aa0ed43"/>
+								<box rightPadding="0">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="1813dea3-4c68-4fc8-b54f-50ad6d66055a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="60" backcolor="#FFB35C" uuid="01ed1fd8-14e1-4111-b14a-84d0efd7a3ae">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[DISCOM]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="20" backcolor="#F7F5F5" uuid="2db0f592-e29c-4b07-98c6-95e260a24e5f"/>
+								<box rightPadding="0">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{owner}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="cd1216c1-037b-4026-8193-4f0ba619f64a">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<box>
+								<pen lineWidth="0.5"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="100" height="60" backcolor="#FFB35C" uuid="39a8123b-c6ba-4803-a71f-1451a75d70ef"/>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[Data Profile]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#F7F5F5" uuid="09e20202-7d68-4e82-95d7-3124f6891a25"/>
+								<box leftPadding="2" rightPadding="0">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{data_profile}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="a7b2677f-e948-497b-b2a6-e172f1237b73">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<box>
+								<pen lineWidth="0.5"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="60" height="60" backcolor="#FFB35C" uuid="1b010652-559e-497a-becc-ad841436a00a"/>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[No. Of Requests Processed]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="60" height="20" backcolor="#F7F5F5" uuid="5ade82a1-d172-46c2-88b2-6abf68de7152"/>
+								<box rightPadding="10">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{no_of_req_processed}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="a93d1f58-3c81-419c-abf4-ddf6ecdac3ee">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<pen lineWidth="0.5"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="60" backcolor="#FFB35C" uuid="5340154e-728c-403c-a2b7-a74fb6dd7721"/>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[No. of requestes processed within 8 Hr ]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="70" height="20" backcolor="#F7F5F5" uuid="aeac0b73-e93d-49bb-b89a-524d186dfc65"/>
+								<box rightPadding="10">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{no_of_req_process_within8hrs}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="80" uuid="565e56c8-7163-41bb-91ed-798c6529d412">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<box>
+								<pen lineWidth="0.5"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="80" height="60" backcolor="#FFB35C" uuid="7a6188bd-723d-41c0-a820-ec56a87770d4"/>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[% Requestes processed within 8 Hr  (95%)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:columnFooter>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="80" height="20" backcolor="#F7F5F5" uuid="7bd95345-2e93-4f10-bf7f-3bca17b9d170">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box rightPadding="10">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{percent_req_process_within8hrs}+" %"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="70" uuid="e4b1e184-258c-4083-8d28-99c63aa11829">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:tableHeader height="0" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</jr:tableHeader>
+						<jr:columnHeader height="60" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<box>
+								<pen lineWidth="0.5"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="70" height="60" backcolor="#FFB35C" uuid="732023ea-ec5e-42ff-9165-62aad8fcf3d5"/>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[No. of requestes processed within 24 Hr]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="70" height="20" backcolor="#F7F5F5" uuid="cf639872-af71-4ead-8764-77be501c6d93"/>
+								<box rightPadding="10">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{no_of_req_process_within24hrs}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="74" uuid="8166a809-4ece-428e-a560-d13966ee1ffb">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableHeader height="0" rowSpan="1"/>
+						<jr:columnHeader height="60" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<box>
+								<pen lineWidth="0.5"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="74" height="60" backcolor="#FFB35C" uuid="89b9982f-1f7f-457d-b95d-ca918221d8be">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box topPadding="1" leftPadding="3" rightPadding="2">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Top">
+									<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								</textElement>
+								<text><![CDATA[% Requestes processed within 24 Hr(99.9%)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:columnFooter height="0" rowSpan="1"/>
+						<jr:detailCell height="20">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="74" height="20" backcolor="#F7F5F5" uuid="793a8e22-5c41-4654-af38-6c841013c254"/>
+								<box rightPadding="0">
+									<pen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{percent_req_process_within24hrs}+" %"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="554" height="20" backcolor="#7EB1F7" uuid="4959568d-2429-4a9e-9117-092c9aab4b68">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Detailed Report]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="554" height="30" uuid="13c04ce2-9546-4e9a-bc93-a5d0443cb74d"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="20" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[No Data Exist in Selected Data Range ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

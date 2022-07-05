@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Meter Photo</h1>
+
+<img [src]="'data:image/png;base64,'+photoBase64" alt="Meter Image" style="max-width: 100%;max-height: 100%;" />
+
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-button (click)="onNoClick()" mat-stroked-button color="warn">Cancel</button>
+</div>

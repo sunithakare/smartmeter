@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Resourcemangement62" pageWidth="1400" pageHeight="842" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1360" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="99b68795-7136-4d08-b05a-3e1b8c47b168">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="L and T"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Crosstab_CH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CG" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CT" mode="Opaque" backcolor="#005FB3">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Crosstab_CD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Style1" mode="Opaque">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{Attandence status_MEASURE}.equals("A")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FC1008"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{Attandence status_MEASURE}.equals("WO")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#D97A0D"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{Attandence status_MEASURE}.equals("H")]]></conditionExpression>
+			<style mode="Opaque" forecolor="#D97A0D"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Month" class="java.lang.String"/>
+	<parameter name="Year" class="java.lang.String"/>
+	<parameter name="Discom" class="java.lang.String"/>
+	<parameter name="State" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select  
+emprole.long_code as "RFP Defined Role",
+DENSE_RANK() OVER ( ORDER BY  emprole.long_code,emp.employee_name) rank_role,
+emp.employee_name as  Empname,
+to_char(doj,'dd/mm/yyyy') as  Date_of_joining,
+(case when dor<CURRENT_DATE then to_char(dor,'dd/mm/yyyy') else 'Still Working' end) as Date_of_Retired,
+to_char(date,'dd-mm-yyyy') as Attendance_date,
+to_char(att.date, 'Day')||to_char(date,'dd/mm/yyyy') as Day,
+trim(to_char(att.date, 'Month')) as monthnedd,
+attsts.short_code as "Attandence status", 
+total_att.Total_Attendence,
+Elig_day.Elig_days,
+Pres_day.Pres_days
+from 
+custom.attendance att
+inner join 
+custom.users_creation emp
+on emp.user_id=att.employee_id
+inner join
+  (select short_code,code_id from custom.config_codes where code_type='ATTENDANCE_STATUS') attsts
+ON attsts.code_id=att.status_id
+inner join
+  (select long_code,code_id,code_group from custom.config_codes where code_type='ROLE') emprole
+ON emprole.code_id=att.role_id
+inner join 
+ (select short_code,code_id from custom.config_codes where code_type='STATE') state
+ on state.code_id=att.state_id
+ inner join
+ (Select discom_name,discom_details_id from custom.discom_details) Discom
+ on Discom.discom_details_id=att.discom_id
+ inner join
+ (select count(*) Total_Attendence,employee_id from custom.attendance r where status_id<>'41'  and to_char(date,'mm')= $P{Month} and to_char(date,'yyyy')= $P{Year}  group by employee_id) total_att
+ON total_att.employee_id=att.employee_id 
+inner join
+ (select count(*) Elig_days,employee_id from custom.attendance r where status_id not in ('41','40','42')  and to_char(date,'mm')= $P{Month}  and to_char(date,'yyyy')= $P{Year} group by employee_id) Elig_day
+ON Elig_day.employee_id=att.employee_id 
+inner join
+ (select count(*) Pres_days,employee_id from custom.attendance r where status_id ='38' and to_char(date,'mm')= $P{Month}  and to_char(date,'yyyy')= $P{Year} group by employee_id) Pres_day
+ON Pres_day.employee_id=att.employee_id 
+and to_char(date,'mm')= $P{Month}
+and to_char(date,'yyyy')= $P{Year} 
+and state.short_code=  $P{State} 
+and Discom.discom_name=  $P{Discom} 
+and code_group='PROJECT' 
+order by Empname,Attendance_date]]>
+	</queryString>
+	<field name="RFP Defined Role" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="RFP Defined Role"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="config_codes"/>
+	</field>
+	<field name="rank_role" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="rank_role"/>
+	</field>
+	<field name="empname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="empname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="users_creation"/>
+	</field>
+	<field name="date_of_joining" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="date_of_joining"/>
+	</field>
+	<field name="date_of_retired" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="date_of_retired"/>
+	</field>
+	<field name="attendance_date" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="attendance_date"/>
+	</field>
+	<field name="day" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="day"/>
+	</field>
+	<field name="monthnedd" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="monthnedd"/>
+	</field>
+	<field name="Attandence status" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Attandence status"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="config_codes"/>
+	</field>
+	<field name="total_attendence" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="total_attendence"/>
+	</field>
+	<field name="elig_days" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="elig_days"/>
+	</field>
+	<field name="pres_days" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="pres_days"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="30" width="1349" height="32" forecolor="#000000" backcolor="#7EB1F7" uuid="38f8e16d-c30f-4a10-a215-4af62ce17e4a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="16" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Attendance Monitoring for EESL AMI- Project Phase]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="1" width="1349" height="29" forecolor="#000000" backcolor="#7EB1F7" uuid="c4cd7ebc-6e5d-4183-80ab-297586720f5c"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="20" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Resource Management-2]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="0" y="62" width="1349" height="29" forecolor="#000000" backcolor="#7EB1F7" uuid="43148536-9109-4c38-a55c-35ad059c2624">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box rightPadding="3">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="14" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Attendance for the period of "+$F{monthnedd}+" - "+$P{Year}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH:mm a">
+				<reportElement x="69" y="6" width="120" height="20" uuid="7d8a9422-07b7-4e65-8c60-e6e212cd287a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="6" width="63" height="20" uuid="fb2720f7-57fe-42ec-9ca8-1b940fdcccee">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Print Date  :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1188" y="4" width="52" height="20" uuid="65908135-fdd2-4b4d-ae69-6e248fa3a98d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="1240" y="4" width="42" height="20" uuid="26e77718-acb6-4a54-9303-5154138c3d60">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" of " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="550" y="6" width="261" height="20" uuid="cd63e62c-418c-41b6-a569-2001c33bf86a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box leftPadding="0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="10" isBold="false" isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[This is system generated Report.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="4" width="1349" height="1" uuid="35253883-d71b-42de-8342-48d8ff587edc">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="134" splitType="Stretch">
+			<crosstab isRepeatColumnHeaders="false" isRepeatRowHeaders="false">
+				<reportElement mode="Opaque" x="0" y="5" width="1360" height="129" uuid="542ab62d-f2ce-4178-bba1-640f6ac328f9">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.crosstab.style.header" value="Crosstab_CH"/>
+					<property name="com.jaspersoft.studio.crosstab.style.group" value="Crosstab_CG"/>
+					<property name="com.jaspersoft.studio.crosstab.style.total" value="Crosstab_CT"/>
+					<property name="com.jaspersoft.studio.crosstab.style.detail" value="Crosstab_CD"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.75"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<crosstabHeaderCell>
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+						<staticText>
+							<reportElement mode="Opaque" x="0" y="0" width="50" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="e7f67548-3bff-4d2a-8729-d6d81461894d">
+								<property name="com.jaspersoft.layout.grid.x" value="-1"/>
+								<property name="com.jaspersoft.layout.grid.y" value="-1"/>
+								<property name="com.jaspersoft.layout.grid.weight.x" value="1.0"/>
+								<property name="com.jaspersoft.layout.grid.weight.y" value="1.0"/>
+								<property name="com.jaspersoft.layout.grid.rowspan" value="1"/>
+								<property name="com.jaspersoft.layout.grid.colspan" value="1"/>
+								<property name="com.jaspersoft.layout.grid.weight.fixed" value="true"/>
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="1.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+							</textElement>
+							<text><![CDATA[Sr. No.]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="51" y="0" width="119" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="e032b6d5-9297-481b-a7ca-266ad5fc88b8">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box leftPadding="3" bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+							</textElement>
+							<text><![CDATA[RFP Defined Role]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="171" y="0" width="89" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="fbe642ca-f38e-47bc-9b64-0e3b70214f12">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box leftPadding="3" bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+							</textElement>
+							<text><![CDATA[Name]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="261" y="0" width="69" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="69ea45ae-0b9c-42a2-a972-7318941c0c19">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+							</textElement>
+							<text><![CDATA[DOJ]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="331" y="0" width="74" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="974b18b1-ddc5-487b-ba8b-bb5fdc06869a">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<text><![CDATA[DOR]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="406" y="0" width="49" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="e0dcb4ec-40b4-4643-877d-31691c99723b">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<text><![CDATA[Total Days]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="456" y="0" width="54" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="ffe74f48-b2d7-4bef-b67f-2fdea289cb8a">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.x" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							</reportElement>
+							<box leftPadding="0" bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<text><![CDATA[Eligible Shift Days]]></text>
+						</staticText>
+						<staticText>
+							<reportElement mode="Opaque" x="511" y="0" width="54" height="95" isPrintInFirstWholeBand="true" forecolor="#000000" backcolor="#FFB35C" uuid="c69c3242-931f-40d0-9a7c-da537fd7b698">
+								<property name="com.jaspersoft.studio.unit.height" value="px"/>
+								<property name="com.jaspersoft.studio.unit.width" value="px"/>
+								<property name="com.jaspersoft.studio.unit.y" value="px"/>
+							</reportElement>
+							<box leftPadding="2" bottomPadding="3">
+								<topPen lineWidth="1.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="1.5"/>
+								<rightPen lineWidth="1.0"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None">
+								<font fontName="SansSerif" size="11" isBold="false" isItalic="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<text><![CDATA[Present Shift Days]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="rank_role" width="50" totalPosition="End" headerPosition="Middle">
+					<bucket class="java.lang.Long">
+						<bucketExpression><![CDATA[$F{rank_role}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="50" height="30" uuid="5c8cb4ad-04ab-4e2e-b4f8-417937d56225"/>
+								<box>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{rank_role}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="RFP Defined Role1" width="120" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{RFP Defined Role}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="120" height="30" uuid="4f0a65a3-b865-4078-9f1e-25cdbaddb0a9"/>
+								<box leftPadding="3">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{RFP Defined Role1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="empname" width="90" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{empname}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<box>
+								<topPen lineWidth="0.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+								<rightPen lineWidth="0.0"/>
+							</box>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="90" height="30" uuid="348b4fd7-97b2-45bf-8cc3-236e7d8805d8">
+									<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+								</reportElement>
+								<box leftPadding="3">
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{empname}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="date_of_joining" width="70" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{date_of_joining}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="70" height="30" uuid="274f4fda-b236-4dbd-8945-2935f468e3dd"/>
+								<box leftPadding="2">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{date_of_joining}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="date_of_retired" width="75" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{date_of_retired}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="75" height="30" uuid="701784d5-b5ee-4fc7-a9aa-83548cedc136"/>
+								<box leftPadding="2">
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{date_of_retired}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="total_attendence" width="50" totalPosition="End">
+					<bucket class="java.lang.Long">
+						<bucketExpression><![CDATA[$F{total_attendence}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="50" height="30" uuid="48ba7e6d-24a1-413f-a617-9786da344625"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{total_attendence}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="elig_days" width="55" totalPosition="End">
+					<bucket class="java.lang.Long">
+						<bucketExpression><![CDATA[$F{elig_days}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="55" height="30" uuid="b35131aa-e437-47fa-b2d4-ff924c9f7c6d"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{elig_days}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="pres_days" width="55" totalPosition="End">
+					<bucket class="java.lang.Long">
+						<bucketExpression><![CDATA[$F{pres_days}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CH">
+							<textField>
+								<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="0" y="0" width="55" height="30" uuid="7f506f32-3013-4ab9-9e5a-c56f2c300a8d"/>
+								<box>
+									<topPen lineWidth="0.75"/>
+									<rightPen lineWidth="0.75"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="10"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{pres_days}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="day" height="25">
+					<bucket order="None" class="java.lang.String">
+						<bucketExpression><![CDATA[$F{day}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<textField>
+								<reportElement mode="Opaque" x="0" y="0" width="25" height="25" backcolor="#D1CDCD" uuid="369cf9e6-da89-40ce-a7b4-9d07bf86184d"/>
+								<box leftPadding="0">
+									<topPen lineWidth="1.0"/>
+									<rightPen lineWidth="0.25"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="SansSerif" size="11"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{day}.substring(0, 3 )]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CT">
+							<staticText>
+								<reportElement x="0" y="0" width="0" height="0" forecolor="#FFFFFF" uuid="a5eb5881-d31d-4577-ab31-585766520ec4"/>
+								<text><![CDATA[Total day]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="attendance_date" height="70" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{attendance_date}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Transparent" style="Crosstab_CH">
+							<property name="com.jaspersoft.studio.unit.width" value="px"/>
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="Crosstab_CT" mode="Opaque" x="0" y="0" width="25" height="70" backcolor="#D1CDCD" uuid="73fdfce5-a3b3-443c-8e66-7923530aae3b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="Left">
+									<font fontName="SansSerif" size="11"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{attendance_date}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" style="Crosstab_CG"/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="Attandence status_MEASURE" class="java.lang.String">
+					<measureExpression><![CDATA[$F{Attandence status}]]></measureExpression>
+				</measure>
+				<measure name="CopyOFMeasure_1" class="java.lang.String" calculation="Count">
+					<measureExpression><![CDATA[$F{Attandence status}]]></measureExpression>
+				</measure>
+				<crosstabCell width="25" height="30">
+					<cellContents mode="Opaque" style="Crosstab_CD">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Style1" stretchType="RelativeToTallestObject" mode="Transparent" x="0" y="0" width="25" height="30" uuid="23337108-9513-43f5-8488-ff9651108dc9">
+								<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+							</reportElement>
+							<box leftPadding="2">
+								<topPen lineWidth="0.75"/>
+								<bottomPen lineWidth="0.75"/>
+								<rightPen lineWidth="0.75"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+								<font fontName="SansSerif" size="10" isBold="false"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Attandence status_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="empname">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="date_of_joining">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="date_of_retired">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="30" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.FreeLayout"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="empname" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="date_of_joining" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="date_of_retired" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement x="0" y="0" width="0" height="20" forecolor="#FFFFFF" uuid="f806f30f-2e35-49f5-aa6d-f9f6d12ed2f3"/>
+							<box leftPadding="2"/>
+							<textFieldExpression><![CDATA[$V{Attandence status_MEASURE}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="empname" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="date_of_joining" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="date_of_retired" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="rank_role">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" rowTotalGroup="rank_role" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="rank_role" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CT">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="RFP Defined Role1">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" rowTotalGroup="RFP Defined Role1" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="RFP Defined Role1" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="total_attendence">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" rowTotalGroup="total_attendence" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="total_attendence" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="elig_days">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" rowTotalGroup="elig_days" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="elig_days" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="25" height="0" rowTotalGroup="pres_days">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="20" rowTotalGroup="pres_days" columnTotalGroup="day">
+					<cellContents mode="Opaque" style="Crosstab_CT"/>
+				</crosstabCell>
+				<crosstabCell width="0" height="0" rowTotalGroup="pres_days" columnTotalGroup="attendance_date">
+					<cellContents mode="Opaque" style="Crosstab_CG"/>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+	<noData>
+		<band height="30">
+			<staticText>
+				<reportElement x="0" y="0" width="1150" height="30" uuid="3ea09f28-6260-4e9e-9ba1-cab868b39428"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="22" isBold="false" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[No Data Exist in Selected Data Range ]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

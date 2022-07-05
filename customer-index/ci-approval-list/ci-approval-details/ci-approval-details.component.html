@@ -1,0 +1,149 @@
+<form [formGroup]="adminApprovalForm" (submit)="saveData()">
+  <mat-card>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+    <h1>Personal Details</h1>
+
+    <h1>Existing Meter Details</h1>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-around start">
+      <div fxLayout="column" fxLayoutAlign="space-around start">
+        <mat-form-field appearance="fill" >
+          <mat-label>Consumer No.</mat-label>
+          <input formControlName="consumerNo" type="text" matInput  />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input formControlName="name" type="text" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Mobile</mat-label>
+          <input formControlName="mobile" type="text" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" >
+          <mat-label>Address</mat-label>
+          <textarea formControlName="address"  matInput style="min-height:87px;height:100%;"></textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Discom Name</mat-label>
+          <input formControlName="discom" type="text" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Division Code</mat-label>
+          <input formControlName="division" type="text" matInput />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Sub Division Code</mat-label>
+          <input formControlName="subDivision" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Sub Station Code</mat-label>
+          <input formControlName="subStation" type="text" matInput />
+        </mat-form-field>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-form-field appearance="fill">
+          <mat-label>Feeder Code</mat-label>
+          <input formControlName="feeder" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>DTR Code</mat-label>
+          <input formControlName="dtr" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Pole No</mat-label>
+          <input formControlName="pole" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>No: of Meters on Pole</mat-label>
+          <input formControlName="metersOnPole" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Latitude/Longitude</mat-label>
+          <input formControlName="longitudeLatitude" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Network Operator</mat-label>
+          <input formControlName="networkOperator" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Signal strength</mat-label>
+          <input formControlName="signalStrength" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Connection Type</mat-label>
+          <input formControlName="connectionType" type="text" matInput />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="Start start">
+        <mat-form-field appearance="fill">
+          <mat-label>Meter No</mat-label>
+          <input  formControlName="meterNo" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Meter Type</mat-label>
+          <input formControlName="meterType"  type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Meter Make</mat-label>
+          <input formControlName="meterMake"  type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>CI Meter Reading - KWH</mat-label>
+          <input formControlName="meterReading"  type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Meter Box Status</mat-label>
+          <input formControlName="meterBoxStatus"  type="text" matInput />
+        </mat-form-field>
+        <div *ngIf="ciDataForEdit!=null" fxLayout="column" >
+          <img [src]="'data:image/jpg;base64,'+ciDataForEdit.photoBase64" alt="Meter Image" style="max-width: 250px;max-height: 200px;" (click)="openImageDialog()"/>
+          <button mat-icon-button type="button" color="primary" (click)="downloadPhoto()">Download <mat-icon>download</mat-icon> </button>
+        </div>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-form-field appearance="fill">
+          <mat-label>Meter Seal Status</mat-label>
+          <input  formControlName="meterSealStatus" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Verifying Agency</mat-label>
+          <input formControlName="agencyVerified" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Verified By</mat-label>
+          <input formControlName="verifiedBy" type="text" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Verified Date</mat-label>
+          <input formControlName="verifiedDate" type="date" matInput />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>CI Remark</mat-label>
+          <textarea formControlName="remarks" type="text" matInput ></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- {{this.adminApprovalForm.getRawValue()|json}} -->
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-evenly start">
+      <button mat-raised-button type="button" color="warn" dir="rtl" fxFlexOffset="10" fxFlex="10"  (click)="closeDetailsTab()"> Cancel </button>
+
+      <button mat-raised-button type="submit" color="primary" dir="rtl" fxFlexOffset="10" fxFlex="10" *ngIf="isEditable"> Save </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+<div class="overlay" *ngIf="spinner">
+  <div class="spinner">
+    <mat-progress-spinner diameter="50" mode="indeterminate" color="accent">
+    </mat-progress-spinner>
+  </div>
+  </div>

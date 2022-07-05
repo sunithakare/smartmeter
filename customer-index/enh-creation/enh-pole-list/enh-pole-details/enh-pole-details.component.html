@@ -1,0 +1,100 @@
+
+<form [formGroup]="enhPoleForm" (ngSubmit)="saveEnhPoleData()" autocomplete="off" (keydown.enter)="$event.preventDefault()"
+(keydown.shift.enter)="$event.preventDefault()">
+<mat-card>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <!-- <span>Pole Type </span> -->
+      <mat-form-field appearance="fill">
+        <mat-label>Division </mat-label>
+        <input (change)="getFeederByDivisionOnChange($event)" type="text" matInput formControlName="division">
+        <mat-error *ngIf="enhPoleForm.controls['division'].hasError('required')">
+            division is <strong>required</strong>
+        </mat-error>
+    </mat-form-field>
+
+
+</div>
+
+<mat-form-field appearance="fill">
+    <mat-label>Feeder </mat-label>
+    <mat-select  (selectionChange)="getDtrByFeederOnChange($event)" formControlName="feeder" >
+      <mat-option  *ngFor="let item of storeFeeder" [value]="item.code">{{item.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>DTR </mat-label>
+    <mat-select formControlName="dtr" >
+     <mat-option *ngFor="let item of storedtr" [value]="item.code">{{item.name}}</mat-option>
+  </mat-select>
+</mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Pole Name </mat-label>
+                <input type="text" matInput formControlName="name" >
+                <mat-error *ngIf="enhPoleForm.controls['name'].hasError('required')">
+                   Pole  Name is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+
+        </div>
+
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+            <mat-form-field appearance="fill">
+                <mat-label>Pole Code </mat-label>
+                <input type="text" matInput formControlName="code">
+                <mat-error *ngIf="enhPoleForm.controls['code'].hasError('required')">
+                    Pole Code Number is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Pole Type </mat-label>
+                <mat-select formControlName="poleType" >
+                    <mat-option value="LT Pole">LT Pole</mat-option>
+                    <mat-option value="HT Pole">HT Pole</mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="agencyCreationForm.controls['agencyType'].hasError('required')">
+                    Agency Type is <strong>required</strong>
+                </mat-error> -->
+            </mat-form-field>
+
+
+            <mat-form-field appearance="fill">
+                <mat-label>Landmark </mat-label>
+                <input type="text" matInput formControlName="landmark">
+                <mat-error *ngIf="enhPoleForm.controls['landmark'].hasError('required')">
+                    landmark is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Location </mat-label>
+                <input type="text" matInput formControlName="location">
+                <mat-error *ngIf="enhPoleForm.controls['location'].hasError('required')">
+                    location is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+
+
+
+
+        </div>
+    </div>
+
+    <!-- <mat-card-actions fxLayout="row" fxLayoutAlign="space-evenly start" *ngIf="isEditable" >
+    <div  dir="rtl" fxFlexOffset="20" fxFlex="10">
+        <button mat-raised-button type="submit" color="primary" >Save</button>
+      </div>
+      </mat-card-actions> -->
+      <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center start">
+        <button mat-raised-button type="button" color="warn" fxFlex="8" (click)="closeDetailsTab()" >Cancel</button>
+        <button mat-raised-button type="submit" color="primary"  fxFlex="8" *ngIf="isEditable" >Save</button>
+
+      </div>
+</mat-card>
+</form>

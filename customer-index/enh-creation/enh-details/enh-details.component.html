@@ -1,0 +1,262 @@
+<form [formGroup]="enhForm" autocomplete="off">
+  <mat-card>
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-form-field appearance="fill">
+          <mat-label>State</mat-label>
+          <input type="text" matInput formControlName="state" />
+          <mat-error *ngIf="enhForm.controls['state'].hasError('required')">
+            State is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Discom</mat-label>
+          <input type="text" matInput formControlName="discom" />
+          <mat-error *ngIf="enhForm.controls['discom'].hasError('required')">
+            Discom is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-form-field appearance="fill">
+          <mat-label>Zone</mat-label>
+          <input type="text" matInput formControlName="zone" />
+          <mat-error *ngIf="enhForm.controls['zone'].hasError('required')">
+            Zone is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>City</mat-label>
+          <input type="text" matInput formControlName="city" />
+          <mat-error *ngIf="enhForm.controls['city'].hasError('required')">
+            City is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-form-field appearance="fill">
+          <mat-label>Circle</mat-label>
+          <input type="text" matInput formControlName="circle" />
+          <mat-error *ngIf="enhForm.controls['circle'].hasError('required')">
+            Circle is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Division</mat-label>
+          <input type="text" matInput formControlName="division" />
+          <mat-error *ngIf="enhForm.controls['division'].hasError('required')">
+            Division is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="space-around center">
+        <mat-form-field appearance="fill">
+          <mat-label>Sub-Division</mat-label>
+          <input type="text" matInput formControlName="subDivision" />
+          <mat-error
+            *ngIf="enhForm.controls['subDivision'].hasError('required')"
+          >
+            Sub-Division is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <button
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="addNewRecord()"
+        *ngIf="isEditable"
+      >
+        <mat-icon>add</mat-icon> Add
+      </button>
+    </div>
+    <div fxLayout="row">
+      <mat-table
+        [dataSource]="dataSource"
+        class="mat-elevation-z8" fxFlex
+      >
+        <ng-container matColumnDef="sNo">
+          <mat-header-cell
+            fxLayoutAlign="center center"
+            *matHeaderCellDef
+            class="TableHeader"
+            >S.No</mat-header-cell
+          >
+          <mat-cell
+            fxLayoutAlign="center center"
+            *matCellDef="let element; let i = index"
+            class="TableDataCell"
+          >
+            {{ i + 1 }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="subStation">
+          <mat-header-cell
+            fxLayoutAlign="center center"
+            *matHeaderCellDef
+            class="TableHeader"
+            >Sub-Station</mat-header-cell
+          >
+          <mat-cell
+            fxLayoutAlign="center center"
+            *matCellDef="let element; let i = index"
+            class="TableDataCell"
+            [formGroup]="element"
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>Sub-Station</mat-label>
+              <mat-select formControlName="subStation"  [compareWith]='compareSubStation' (selectionChange)="subStationChange(element)">
+                 <mat-option  *ngFor="let sub of dropdownData.substationList" [value]="sub" subStation>{{sub.code+"|"+sub.name}}</mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="element.controls['subStation'].hasError('required')"
+              >
+                Sub-Station is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="feeder">
+          <mat-header-cell
+            fxLayoutAlign="center center"
+            *matHeaderCellDef
+            class="TableHeader"
+            >Feeder</mat-header-cell
+          >
+          <mat-cell
+            fxLayoutAlign="center center"
+            *matCellDef="let element; let i = index"
+            class="TableDataCell"
+            [formGroup]="element"
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>Feeder</mat-label>
+              <mat-select formControlName="feeder"  [compareWith]='compareFeeder' (selectionChange)="feederChange(element)">
+                <ng-container  *ngFor="let feeder of dropdownData.feederList">
+                  <mat-option   [value]="feeder"  *ngIf="element.controls['subStation'].value!=null? element.controls['subStation'].value.code==feeder.subStation:true"  >{{feeder.code+"|"+feeder.name}}</mat-option>
+                </ng-container>
+             </mat-select>
+              <mat-error
+                *ngIf="element.controls['feeder'].hasError('required')" >
+                Feeder is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="dtr">
+          <mat-header-cell
+            fxLayoutAlign="center center"
+            *matHeaderCellDef
+            class="TableHeader"
+            >Dtr</mat-header-cell >
+          <mat-cell
+            fxLayoutAlign="center center"
+            *matCellDef="let element; let i = index"
+            class="TableDataCell"
+            [formGroup]="element"
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>Dtr</mat-label>
+              <mat-select formControlName="dtr"  [compareWith]='compareDtr' (selectionChange)="dtrChange(element)">
+                <ng-container *ngFor="let dtr of dropdownData.dtrList">
+                  <mat-option  [value]="dtr" *ngIf="element.controls['feeder'].value!=null? element.controls['feeder'].value.code==dtr.feeder:true"  >{{dtr.code+"|"+dtr.name}}</mat-option>
+                </ng-container>
+             </mat-select>
+              <mat-error *ngIf="element.controls['dtr'].hasError('required')">
+                Dtr is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="pole">
+          <mat-header-cell
+            fxLayoutAlign="center center"
+            *matHeaderCellDef
+            class="TableHeader"
+            >Pole</mat-header-cell
+          >
+          <mat-cell
+            fxLayoutAlign="center center"
+            *matCellDef="let element; let i = index"
+            class="TableDataCell"
+            [formGroup]="element"
+          >
+            <mat-form-field appearance="fill">
+              <mat-label>Pole</mat-label>
+              <mat-select formControlName="pole"  [compareWith]='comparePole'>
+                <ng-container *ngFor="let pole of dropdownData.poleList">
+                  <mat-option  [value]="pole" *ngIf="element.controls['dtr'].value!=null? element.controls['dtr'].value.code==pole.dtr&& element.controls['feeder'].value.code==pole.feeder :true"  >{{pole.code+"|"+pole.name}}</mat-option>
+                </ng-container>
+             </mat-select>
+              <mat-error *ngIf="element.controls['pole'].hasError('required')">
+                Pole is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <mat-header-cell
+            fxLayoutAlign="center center"
+            *matHeaderCellDef
+            class="TableHeader"
+            >Action</mat-header-cell
+          >
+          <mat-cell
+            fxLayoutAlign="center center"
+            *matCellDef="let element; let i = index"
+            class="TableDataCell"
+            [formGroup]="element"
+          >
+            <button
+              mat-raised-button
+              type="button"
+              color="warn"
+              (click)="removeRecord(i)"
+              title="Remove Discom"
+            >
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+          style="white-space: nowrap"
+        ></mat-header-row>
+        <mat-row
+
+          *matRowDef="let row; columns: displayedColumns; let i = index"
+        ></mat-row>
+      </mat-table>
+    </div>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end start">
+      <button
+        mat-raised-button
+        color="primary"
+        dir="rtl"
+        fxFlexOffset="5"
+        fxFlex="5"
+        (click)="saveEnhData()"
+      >
+        Save
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="overlay" *ngIf="spinner">
+    <div class="spinner">
+      <mat-progress-spinner diameter="50" mode="indeterminate" color="accent">
+      </mat-progress-spinner>
+    </div>
+  </div>
+</form>

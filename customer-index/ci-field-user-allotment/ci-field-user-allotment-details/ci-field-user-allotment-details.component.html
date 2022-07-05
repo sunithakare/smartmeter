@@ -1,0 +1,94 @@
+<form [formGroup]="fieldUserAllotmentForm" autocomplete="off" (ngSubmit)="saveFieldUserAllotment()" (keydown.enter)="$event.preventDefault()" (keydown.shift.enter)="$event.preventDefault()">
+    <mat-card>
+    <div fxLayout="row" fxLayoutAlign="space-around  center">
+        <div fxLayout="column" fxLayoutAlign="space-around  center">
+            <mat-form-field appearance="fill" >
+                <mat-label>Allocation DataType</mat-label>
+                <mat-select formControlName="allocationDatatype" (selectionChange)="dataTypeChanged($event)">
+                  <ng-container *ngIf="allocationList.length==0">
+                  <mat-option  value="CI">CI</mat-option>
+                  <mat-option  value="MI">MI</mat-option>
+                  <mat-option  value="O&M">O&M</mat-option>
+                  <mat-option  value="ENH">ENH</mat-option>
+                </ng-container>
+              <mat-option *ngFor="let item of allocationList" [value]="item.type">{{item.type}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Agency</mat-label>
+                <input type="text" matInput formControlName="agency">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Mobile No</mat-label>
+                <input type="text" matInput formControlName="mobile"  (change)="fetchAllData()">
+                <mat-error
+                    *ngIf="fieldUserAllotmentForm.controls['mobile'].hasError('required')"
+                  >
+                    Mobile No is  <strong>required</strong>
+                  </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>UserId</mat-label>
+                <input type="text" matInput formControlName="userId" (change)="fetchAllData()">
+                <mat-error
+                *ngIf="fieldUserAllotmentForm.controls['userId'].hasError('required')"
+              >
+                UserID is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+        </div>
+
+
+
+        <div fxLayout="column" fxLayoutAlign="space-around  center">
+
+            <mat-form-field appearance="fill">
+                <mat-label>User Full Name</mat-label>
+                <input type="text" matInput  formControlName="userName">
+            </mat-form-field>
+            <mat-form-field appearance="fill" >
+                <mat-label>Allocation</mat-label>
+                <mat-select formControlName="allocation">
+                  <mat-option  value="Fresh">Fresh</mat-option>
+                  <mat-option  value="Reallocation">ReAllocation</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+  </div>
+
+  <h2 *ngIf="allDivisionS.length>0" align="center">Available Divisions</h2>
+  <!-- <div fxLayout="column" fxLayoutAlign="space-around center"> -->
+
+<div fxLayout="row" fxLayoutAlign="space-evenly end" >
+<div fxLayout="column"  >
+<ng-container  *ngFor="let item of allDivisionS ; let i = index" >
+  <div fxLayout="row" fxLayoutAlign="start end" *ngIf="i%3==0">
+    <mat-checkbox [value]="item.divCode" (change)="checkedChange($event)" [disabled]="!isEditable" [checked]="this.fieldUserAllotmentForm.controls['divisionList'].value.indexOf(item.divCode)>=0"> {{item.divCode+'('+item.count+')'}}</mat-checkbox>
+</div >
+</ng-container>
+</div >
+<div fxLayout="column"  >
+<ng-container  *ngFor="let item of allDivisionS ; let i = index" >
+  <div fxLayout="row" fxLayoutAlign="start end" *ngIf="i%3==1">
+    <mat-checkbox [value]="item.divCode" (change)="checkedChange($event)" [disabled]="!isEditable" [checked]="this.fieldUserAllotmentForm.controls['divisionList'].value.indexOf(item.divCode)>=0"> {{item.divCode+'('+item.count+')'}}</mat-checkbox>
+  </div >
+</ng-container>
+</div >
+<div fxLayout="column"  >
+<ng-container  *ngFor="let item of allDivisionS ; let i = index" >
+  <div fxLayout="row" fxLayoutAlign="start end" *ngIf="i%3==2">
+    <mat-checkbox [value]="item.divCode" (change)="checkedChange($event)" [disabled]="!isEditable" [checked]="this.fieldUserAllotmentForm.controls['divisionList'].value.indexOf(item.divCode)>=0"> {{item.divCode+'('+item.count+')'}}</mat-checkbox>
+  </div >
+</ng-container>
+</div >
+</div >
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end start" >
+      <button mat-raised-button type="button" color="warn"  fxFlex="10"  (click)="closeDetailsTab()"> Cancel </button>
+
+        <button mat-raised-button type="submit" color="primary"  fxFlex="10">Save</button>
+  </mat-card-actions>
+
+    </mat-card>
+</form>

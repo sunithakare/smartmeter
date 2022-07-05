@@ -1,0 +1,152 @@
+<!-- <p>ci-field-user-details works!</p> -->
+<form
+  [formGroup]="userCreationForm"
+  (ngSubmit)="saveFieldUserCreation()"
+  autocomplete="off"
+  (keydown.enter)="$event.preventDefault()"
+  (keydown.shift.enter)="$event.preventDefault()"
+>
+  <mat-card>
+    <div fxLayout="row" fxLayoutAlign="space-around start">
+      <div fxLayout="column" fxLayoutAlign="space-around start">
+        <mat-form-field appearance="fill">
+          <mat-label>Agency Code</mat-label>
+          <input type="text" matInput formControlName="agencyCode"  (change)="validateAgencyCode()"/>
+          <mat-error *ngIf="userCreationForm.controls['agencyCode'].hasError('Invalid Agency')" >
+            Agency Code is <strong>Invalid</strong>
+          </mat-error>
+          <mat-error *ngIf="userCreationForm.controls['agencyCode'].hasError('required')" >
+            Agency Code is <strong>required</strong>
+          </mat-error>
+
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Agency Name</mat-label>
+          <input type="text" matInput  [(ngModel)]="agencyName" [ngModelOptions]="{standalone: true}" [disabled]="true"/>
+
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Mobile</mat-label>
+          <input type="text" matInput formControlName="mobile" maxlength="10"/>
+          <mat-error *ngIf="userCreationForm.controls['mobile'].hasError('required')" >
+            Mobile is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>UserId</mat-label>
+          <input type="text" matInput formControlName="userId" />
+          <mat-error *ngIf="userCreationForm.controls['userId'].hasError('required')" >
+            User Id is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="fill">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <mat-option value="Active">Active</mat-option>
+            <mat-option value="Inactive">Inactive</mat-option>
+          </mat-select>
+
+          <mat-checkbox  formControlName="status"></mat-checkbox>
+
+          <mat-error *ngIf="userCreationForm.controls['status'].hasError('required')" >
+            Status is <strong>required</strong>
+          </mat-error>
+        </mat-form-field> -->
+
+        <div fxLayout="row" fxLayoutAlign="start center" >
+          <mat-checkbox
+          labelPosition="before"
+          formControlName="status" style="margin-bottom: 10px; ">
+            Active
+          </mat-checkbox>
+        </div>
+        <mat-form-field appearance="fill">
+          <mat-label>Id Proof No</mat-label>
+          <input type="text" matInput formControlName="idProof" />
+          <mat-error *ngIf="userCreationForm.controls['idProof'].hasError('required')" >
+            Id Proof No is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="start start">
+        <mat-form-field appearance="fill" *ngIf="isNavigation">
+          <mat-label>User Code</mat-label>
+          <input type="text" matInput  [ngModel]="fielduserdetail.userCode" [ngModelOptions]="{standalone: true}" [disabled]="true"/>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>First Name</mat-label>
+          <input type="text" matInput formControlName="userFirstName" />
+          <mat-error *ngIf="userCreationForm.controls['userFirstName'].hasError('required')" >
+            First Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Last Name</mat-label>
+          <input type="text" matInput formControlName="userLastName" />
+          <mat-error *ngIf="userCreationForm.controls['userLastName'].hasError('required')" >
+            Last Name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>E-mail</mat-label>
+          <input type="email" matInput formControlName="email" />
+          <mat-error *ngIf="userCreationForm.controls['email'].hasError('required')" >
+            E-mail is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input type="text" matInput formControlName="password" />
+          <mat-error *ngIf="userCreationForm.controls['password'].hasError('required')" >
+            Password is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="fill">
+                <mat-label>ID Proof</mat-label>
+                <input type="text" matInput formControlName="idProof">
+            </mat-form-field> -->
+
+        <!-- <button
+          mat-raised-button
+          type="button"
+          color="primary"
+          (click)="uploader.click()"
+        >
+          Upload Id Prood Doc <mat-icon>upload</mat-icon>
+        </button> -->
+        <!-- <button mat-raised-button type="button" color="warn" (click)="removeDocument(i)" title="Remove Discom" style="margin-left: 10px;"><mat-icon>delete_forever</mat-icon></button> -->
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+      <input hidden type="file" #uploader (change)="uploadFile($event)" accept=".pdf" >
+      <button
+      mat-raised-button
+      type="button"
+      color="primary"
+      (click)="uploader.click()"
+    >
+      Upload Id Prood Doc <mat-icon>upload</mat-icon>
+    </button>
+
+      <button
+      mat-icon-button
+      type="button"
+      color="primary"
+      *ngIf="userCreationForm.get('fileId')?.value!=''"
+      (click)="downloadDocument()"
+    >Download Id Proof
+    <mat-icon>download</mat-icon>
+    </button>
+  </div>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end start">
+      <button mat-raised-button type="button" color="warn" fxFlex="10" (click)="closeDetailsTab()"> Cancel </button>
+      <button mat-raised-button type="submit" color="primary" fxFlex="10"> Save </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
